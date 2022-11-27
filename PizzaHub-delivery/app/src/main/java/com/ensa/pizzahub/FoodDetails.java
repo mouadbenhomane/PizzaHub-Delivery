@@ -23,7 +23,7 @@ public class FoodDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_details);
+        setContentView(R.layout.pizza_details);
 
         Intent intent = getIntent();
 
