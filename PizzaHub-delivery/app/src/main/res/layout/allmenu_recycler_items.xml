@@ -44,14 +44,15 @@
         android:id="@+id/all_menu_deliverytime"
         android:layout_width="40dp"
         android:layout_height="15dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/time_bg"
         android:gravity="center"
         android:text="45 mins"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="8sp"
-        tools:layout_editor_absoluteX="102dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintStart_toStartOf="@+id/all_menu_note"
+        app:layout_constraintTop_toBottomOf="@+id/all_menu_note" />
 
     <TextView
         android:id="@+id/all_menu_price"

@@ -1,5 +1,6 @@
 package com.ensa.pizzahub.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,9 +38,9 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AllMenuViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull AllMenuViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        holder.allMenuName.setText(allmenuList.get(position).getName());
+        /*holder.allMenuName.setText(allmenuList.get(position).getName());
         holder.allMenuPrice.setText("₹ "+allmenuList.get(position).getPrice());
         holder.allMenuTime.setText(allmenuList.get(position).getDeliveryTime());
         holder.allMenuRating.setText(allmenuList.get(position).getRating());
@@ -47,7 +48,7 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
         holder.allMenuNote.setText(allmenuList.get(position).getNote());
 
         Glide.with(context).load(allmenuList.get(position).getImageUrl()).into(holder.allMenuImage);
-
+        */
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
