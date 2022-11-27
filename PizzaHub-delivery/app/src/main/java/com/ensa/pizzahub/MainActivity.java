@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.pizza_details);
+        /*
         apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
 
         Call<List<FoodData>> call = apiInterface.getAllData();
@@ -69,19 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
             }
         });
+        */
 
 
-
-
-    }
-
-    private void  getPopularData(List<Popular> popularList){
-
-        popularRecyclerView = findViewById(R.id.popular_recycler);
-        popularAdapter = new PopularAdapter(this, popularList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        popularRecyclerView.setLayoutManager(layoutManager);
-        popularRecyclerView.setAdapter(popularAdapter);
 
     }
 

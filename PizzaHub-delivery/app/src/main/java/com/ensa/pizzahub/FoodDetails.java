@@ -32,11 +32,9 @@ public class FoodDetails extends AppCompatActivity {
         rating = intent.getStringExtra("rating");
         imageUrl = intent.getStringExtra("image");
 
-        imageView = findViewById(R.id.imageView5);
+        imageView = findViewById(R.id.pizzaImg);
         itemName = findViewById(R.id.name);
         itemPrice = findViewById(R.id.price);
-        itemRating = findViewById(R.id.rating);
-        ratingBar = findViewById(R.id.ratingBar);
 
         Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
         itemName.setText(name);
