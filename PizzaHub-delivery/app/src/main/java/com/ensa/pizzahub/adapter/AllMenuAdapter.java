@@ -79,8 +79,6 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
 
             allMenuName = itemView.findViewById(R.id.all_menu_name);
             allMenuNote = itemView.findViewById(R.id.all_menu_note);
-            allMenuCharges = itemView.findViewById(R.id.all_menu_delivery_charge);
-            allMenuRating = itemView.findViewById(R.id.all_menu_rating);
             allMenuTime = itemView.findViewById(R.id.all_menu_deliverytime);
             allMenuPrice = itemView.findViewById(R.id.all_menu_price);
             allMenuImage = itemView.findViewById(R.id.all_menu_image);

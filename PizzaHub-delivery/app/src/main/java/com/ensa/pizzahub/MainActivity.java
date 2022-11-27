@@ -17,6 +17,7 @@ import com.ensa.pizzahub.model.Recommended;
 import com.ensa.pizzahub.retrofit.ApiInterface;
 import com.ensa.pizzahub.retrofit.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,8 +37,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        setContentView(R.layout.pizza_details);
+        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.pizza_details);
+        ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
+        for(int i=0;i<10;i++){
+            recommendedList.add(new Recommended());
+        }
+        getRecommendedData(recommendedList);
+        ArrayList<Allmenu> pizzaList = new ArrayList<Allmenu>();
+        for(int i=0;i<10;i++){
+            pizzaList.add(new Allmenu());
+        }
+        getAllMenu(pizzaList);
         /*
         apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
 

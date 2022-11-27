@@ -1,5 +1,6 @@
 package com.ensa.pizzahub.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -36,15 +37,14 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecommendedViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull RecommendedViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+/*
         holder.recommendedName.setText(recommendedList.get(position).getName());
-        holder.recommendedRating.setText(recommendedList.get(position).getRating());
         holder.recommendedCharges.setText(recommendedList.get(position).getDeliveryCharges());
         holder.recommendedDeliveryTime.setText(recommendedList.get(position).getDeliveryTime());
-        holder.recommendedPrice.setText("₹ "+recommendedList.get(position).getPrice());
+        holder.recommendedPrice.setText(recommendedList.get(position).getPrice());
 
-        Glide.with(context).load(recommendedList.get(position).getImageUrl()).into(holder.recommendedImage);
+        Glide.with(context).load(recommendedList.get(position).getImageUrl()).into(holder.recommendedImage);*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +52,6 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
                 Intent i = new Intent(context, FoodDetails.class);
                 i.putExtra("name", recommendedList.get(position).getName());
                 i.putExtra("price", recommendedList.get(position).getPrice());
-                i.putExtra("rating", recommendedList.get(position).getRating());
                 i.putExtra("image", recommendedList.get(position).getImageUrl());
 
                 context.startActivity(i);
@@ -69,17 +68,14 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
     public static class RecommendedViewHolder extends RecyclerView.ViewHolder{
 
         ImageView recommendedImage;
-        TextView recommendedName, recommendedRating, recommendedDeliveryTime, recommendedCharges, recommendedPrice;
+        TextView recommendedName, recommendedDeliveryTime, recommendedCharges, recommendedPrice;
 
         public RecommendedViewHolder(@NonNull View itemView) {
             super(itemView);
 
             recommendedImage = itemView.findViewById(R.id.recommended_image);
             recommendedName = itemView.findViewById(R.id.recommended_name);
-            recommendedRating = itemView.findViewById(R.id.recommended_rating);
             recommendedDeliveryTime = itemView.findViewById(R.id.recommended_delivery_time);
-            recommendedCharges = itemView.findViewById(R.id.delivery_type);
-            recommendedCharges = itemView.findViewById(R.id.delivery_type);
             recommendedPrice = itemView.findViewById(R.id.recommended_price);
 
         }
