@@ -1,5 +1,6 @@
 package com.ensa.pizzahub.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -18,12 +19,12 @@ import com.ensa.pizzahub.model.Popular;
 
 import java.util.List;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PopularViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.PopularViewHolder> {
 
     private Context context;
     private List<Popular> popularList;
 
-    public PopularAdapter(Context context, List<Popular> popularList) {
+    public CartAdapter(Context context, List<Popular> popularList) {
         this.context = context;
         this.popularList = popularList;
     }
@@ -32,7 +33,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PopularV
     @Override
     public PopularViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.popular_recycler_items, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cart_recycler_items, parent, false);
          // here we need to create a layout for recyclerview cell items.
 
 
@@ -40,14 +41,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.PopularV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularViewHolder holder, final int position) {
-
+    public void onBindViewHolder(@NonNull PopularViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        /*
         holder.popularName.setText(popularList.get(position).getName());
 
         // for image we add Glide library dependency for image fetching from server
 
         Glide.with(context).load(popularList.get(position).getImageUrl()).into(holder.popularImage);
-
+        */
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

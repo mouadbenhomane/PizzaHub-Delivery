@@ -5,50 +5,45 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.ensa.pizzahub.adapter.AllMenuAdapter;
-import com.ensa.pizzahub.adapter.PopularAdapter;
+import com.ensa.pizzahub.adapter.CartAdapter;
 import com.ensa.pizzahub.adapter.RecommendedAdapter;
 import com.ensa.pizzahub.model.Allmenu;
-import com.ensa.pizzahub.model.FoodData;
 import com.ensa.pizzahub.model.Popular;
 import com.ensa.pizzahub.model.Recommended;
 import com.ensa.pizzahub.retrofit.ApiInterface;
-import com.ensa.pizzahub.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
 
-    RecyclerView popularRecyclerView, recommendedRecyclerView, allMenuRecyclerView;
+    RecyclerView popularRecyclerView, recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView;
 
-    PopularAdapter popularAdapter;
+    CartAdapter cartAdapter;
     RecommendedAdapter recommendedAdapter;
     AllMenuAdapter allMenuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.my_cart);
         //setContentView(R.layout.pizza_details);
+        /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
         for(int i=0;i<10;i++){
             recommendedList.add(new Recommended());
         }
-        getRecommendedData(recommendedList);
-        ArrayList<Allmenu> pizzaList = new ArrayList<Allmenu>();
+        getRecommendedData(recommendedList);*/
+        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
         for(int i=0;i<10;i++){
-            pizzaList.add(new Allmenu());
+            pizzaList.add(new Popular());
         }
-        getAllMenu(pizzaList);
+        getMyCart(pizzaList);
+
         /*
         apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
 
@@ -105,6 +100,17 @@ public class MainActivity extends AppCompatActivity {
         allMenuRecyclerView.setLayoutManager(layoutManager);
         allMenuRecyclerView.setAdapter(allMenuAdapter);
         allMenuAdapter.notifyDataSetChanged();
+
+    }
+
+    private void  getMyCart(List<Popular> myCartList){
+
+        cartRecyclerView = findViewById(R.id.my_cart_view);
+        cartAdapter = new CartAdapter(this, myCartList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cartRecyclerView.setLayoutManager(layoutManager);
+        cartRecyclerView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
 
     }
     // today w are going to make a food app like zomato and swiggy.
