@@ -4,38 +4,58 @@ public class Pizza {
     private int id;
     private String description;
     private String name;
-    private double price;
+    private double price_s;
+    private double price_m;
+    private double price_l;
     private double deliveryTime;
     private String imagePath;
-    private ItemSize size;
 
     public Pizza() {
     }
 
-    public Pizza(String description, String name, double price, double deliveryTime, String imagePath, ItemSize size) {
+    public Pizza(String description, String name, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
         this.description = description;
         this.name = name;
-        this.price = price;
+        this.price_s = price_s;
+        this.price_m = price_m;
+        this.price_l = price_l;
         this.deliveryTime = deliveryTime;
         this.imagePath = imagePath;
-        this.size = size;
     }
 
-    public Pizza(int id, String description, String name, double price, double deliveryTime, String imagePath, ItemSize size) {
+    public Pizza(int id, String description, String name, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
         this.id = id;
         this.description = description;
         this.name = name;
-        this.price = price;
+        this.price_s = price_s;
+        this.price_m = price_m;
+        this.price_l = price_l;
         this.deliveryTime = deliveryTime;
         this.imagePath = imagePath;
-        this.size = size;
-    }
-    public ItemSize getSize() {
-        return size;
     }
 
-    public void setSize(ItemSize size) {
-        this.size = size;
+    public double getPrice_s() {
+        return price_s;
+    }
+
+    public void setPrice_s(double price_s) {
+        this.price_s = price_s;
+    }
+
+    public double getPrice_m() {
+        return price_m;
+    }
+
+    public void setPrice_m(double price_m) {
+        this.price_m = price_m;
+    }
+
+    public double getPrice_l() {
+        return price_l;
+    }
+
+    public void setPrice_l(double price_l) {
+        this.price_l = price_l;
     }
 
     public int getId() {
@@ -60,14 +80,6 @@ public class Pizza {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public double getDeliveryTime() {

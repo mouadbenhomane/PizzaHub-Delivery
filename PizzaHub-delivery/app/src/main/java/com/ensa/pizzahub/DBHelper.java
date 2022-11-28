@@ -72,17 +72,21 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PIZZA_ID = "pizza_id";
     private static final String COLUMN_PIZZA_NAME = "pizza_name";
     private static final String COLUMN_PIZZA_DESCRIPTION = "pizza_description";
-    private static final String COLUMN_PIZZA_PRICE = "pizza_price";
+    private static final String COLUMN_PIZZA_PRICE_S = "pizza_price_s";
+    private static final String COLUMN_PIZZA_PRICE_M = "pizza_price_m";
+    private static final String COLUMN_PIZZA_PRICE_L = "pizza_price_l";
     private static final String COLUMN_PIZZA_DELIVERY_TIME = "pizza_delivery_time";
-    private static final String COLUMN_PIZZA_SIZE = "pizza_size";
+    //private static final String COLUMN_PIZZA_SIZE = "pizza_size";
     private static final String COLUMN_PIZZA_IMAGE = "pizza_image";
 
 
     // create table sql query
     private String CREATE_PIZZA_TABLE = "CREATE TABLE " + TABLE_PIZZA + "("
             + COLUMN_PIZZA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_PIZZA_NAME + " TEXT,"
-            + COLUMN_PIZZA_DESCRIPTION + " TEXT," + COLUMN_PIZZA_PRICE + " NUMBER,"+
-            COLUMN_PIZZA_DELIVERY_TIME + " NUMBER,"+COLUMN_PIZZA_SIZE+" INTEGER,"+
+            + COLUMN_PIZZA_DESCRIPTION + " TEXT," + COLUMN_PIZZA_PRICE_S + " NUMBER,"+
+            COLUMN_PIZZA_PRICE_M + " NUMBER,"+
+            COLUMN_PIZZA_PRICE_L + " NUMBER,"+
+            COLUMN_PIZZA_DELIVERY_TIME + " NUMBER,"+
             COLUMN_PIZZA_IMAGE+" TEXT)";
     // drop user table sql query
     private String DROP_PIZZA_TABLE = "DROP TABLE IF EXISTS " + TABLE_PIZZA;
@@ -135,9 +139,19 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
     }
-
+    //
     public void addPizza(Pizza pizza){
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PIZZA_NAME,pizza.getName());
+        values.put(COLUMN_PIZZA_DESCRIPTION,pizza.getDescription());
+        values.put(COLUMN_PIZZA_IMAGE,pizza.getImagePath());
+        values.put(COLUMN_PIZZA_PRICE_S,pizza.getPrice_s());
+        values.put(COLUMN_PIZZA_PRICE_M,pizza.getPrice_m());
+        values.put(COLUMN_PIZZA_PRICE_L,pizza.getPrice_l());
+        values.put(COLUMN_PIZZA_DELIVERY_TIME,pizza.getDeliveryTime());
+        db.insert(TABLE_PIZZA, null, values);
+        db.close();
     }
     /**
      * This method is to fetch all user and return the list of user records
@@ -187,6 +201,47 @@ public class DBHelper extends SQLiteOpenHelper {
         // return user list
         return userList;
     }
+    public List<Pizza> getAllPizza(){
+        String[] columns = {
+                COLUMN_PIZZA_ID,
+                COLUMN_PIZZA_NAME,
+                COLUMN_PIZZA_DESCRIPTION,
+                COLUMN_PIZZA_PRICE_S,
+                COLUMN_PIZZA_PRICE_M,
+                COLUMN_PIZZA_PRICE_L,
+                COLUMN_PIZZA_DELIVERY_TIME,
+                COLUMN_PIZZA_IMAGE
+        };
+        String sortOrder =
+                COLUMN_PIZZA_NAME + " ASC";
+        List<Pizza> pizzaList = new ArrayList<Pizza>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_PIZZA, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);
+        if (cursor.moveToFirst()) {
+            do {
+                Pizza pizza = new Pizza();
+                pizza.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_ID))));
+                pizza.setName(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_NAME)));
+                pizza.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_DESCRIPTION)));
+                pizza.setPrice_s(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_S)));
+                pizza.setPrice_m(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_M)));
+                pizza.setPrice_l(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_L)));
+
+                // Adding pizza record to list
+                pizzaList.add(pizza);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return pizzaList;
+    }
+
     /**
      * This method to update user record
      *
