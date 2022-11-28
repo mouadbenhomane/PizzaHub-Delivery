@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // Database Name
     private static final String DATABASE_NAME = "Userdata.db";
 
@@ -258,6 +258,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
+    public void updatePizza(Pizza pizza){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PIZZA_NAME,pizza.getName());
+        values.put(COLUMN_PIZZA_DESCRIPTION,pizza.getDescription());
+        values.put(COLUMN_PIZZA_IMAGE,pizza.getImagePath());
+        values.put(COLUMN_PIZZA_PRICE_S,pizza.getPrice_s());
+        values.put(COLUMN_PIZZA_PRICE_M,pizza.getPrice_m());
+        values.put(COLUMN_PIZZA_PRICE_L,pizza.getPrice_l());
+        values.put(COLUMN_PIZZA_DELIVERY_TIME,pizza.getDeliveryTime());
+        db.update(TABLE_PIZZA, values,COLUMN_PIZZA_ID+ " = ?",
+                new String[]{String.valueOf(pizza.getId())});
+        db.close();
+
+    }
     /**
      * This method is to delete user record
      *
@@ -268,6 +283,14 @@ public class DBHelper extends SQLiteOpenHelper {
         // delete user record by id
         db.delete(TABLE_USER, COLUMN_USER_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
+        db.close();
+    }
+
+    public  void deletePizza(Pizza pizza){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete user record by id
+        db.delete(TABLE_PIZZA, COLUMN_PIZZA_ID+ " = ?",
+                new String[]{String.valueOf(pizza.getId())});
         db.close();
     }
     /**
