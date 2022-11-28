@@ -6,22 +6,19 @@ public class Order {
     private int id;
     private State state;
     private List<OrderItem> items;
-    private User user;
 
     public Order() {
     }
 
-    public Order(State state, List<OrderItem> items, User user) {
+    public Order(State state, List<OrderItem> items) {
         this.state = state;
         this.items = items;
-        this.user = user;
     }
 
-    public Order(int id, State state, List<OrderItem> items, User user) {
+    public Order(int id, State state, List<OrderItem> items) {
         this.id = id;
         this.state = state;
         this.items = items;
-        this.user = user;
     }
 
     public int getId() {
@@ -39,14 +36,7 @@ public class Order {
     public void setState(State state) {
         this.state = state;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    
 
     public List<OrderItem> getItems() {
         return items;
@@ -62,7 +52,6 @@ public class Order {
                 "id=" + id +
                 ", state=" + state +
                 ", items=" + items.toString() +
-                ", user=" + user +
                 '}';
     }
 }

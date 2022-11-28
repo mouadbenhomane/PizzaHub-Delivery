@@ -5,23 +5,32 @@ public class User {
     private String name;
     private String email;
     private String password;
-
+    private Order order;
     public User() {
     }
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(int id, String name, String email, String password) {
+    public User(int id, String name, String email, String password, Order order) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.order = order;
     }
 
+    public User(String name, String email, String password, Order order) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public int getId() {
         return id;
