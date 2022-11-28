@@ -12,6 +12,7 @@ import com.ensa.pizzahub.adapter.RecommendedAdapter;
 import com.ensa.pizzahub.model.Allmenu;
 import com.ensa.pizzahub.model.Popular;
 import com.ensa.pizzahub.model.Recommended;
+import com.ensa.pizzahub.model.User;
 import com.ensa.pizzahub.retrofit.ApiInterface;
 
 import java.util.ArrayList;
@@ -22,15 +23,16 @@ public class MainActivity extends AppCompatActivity {
     ApiInterface apiInterface;
 
     RecyclerView popularRecyclerView, recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView;
-
+    private final AppCompatActivity activity = MainActivity.this;
     CartAdapter cartAdapter;
     RecommendedAdapter recommendedAdapter;
     AllMenuAdapter allMenuAdapter;
-
+    private DBHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+
+        //setContentView(R.layout.activity_register);
         //setContentView(R.layout.pizza_details);
         /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
