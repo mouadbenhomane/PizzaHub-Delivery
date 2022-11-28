@@ -15,9 +15,9 @@ public class PizzaDetails extends AppCompatActivity {
     // now we will get data from intent and set to UI
 
     ImageView imageView;
-    TextView itemName, itemPrice, itemTime;
+    TextView itemName, itemPrice,itemDesc;
 
-    String name, price, imageUrl,time;
+    String name, priceS, priceM, priceL, imageUrl,desc;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -28,18 +28,20 @@ public class PizzaDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
         name = intent.getStringExtra("name");
-        price = intent.getStringExtra("price");
-        time = intent.getStringExtra("time");
+        priceM = intent.getStringExtra("priceM");
         imageUrl = intent.getStringExtra("image");
+        imageUrl = intent.getStringExtra("image");
+        desc = intent.getStringExtra("description");
 
-        itemName = findViewById(R.id.recommended_name);
-        itemPrice = findViewById(R.id.recommended_price);
-        itemTime = findViewById(R.id.recommended_delivery_time);
-        imageView = findViewById(R.id.recommended_image);
+        itemDesc = findViewById(R.id.textView8);
+        itemName = findViewById(R.id.name);
+        itemPrice = findViewById(R.id.price2);
+        imageView = findViewById(R.id.pizzaImg);
 
         Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
         itemName.setText(name);
-        itemPrice.setText(price);
+        itemPrice.setText(priceM);
+        itemDesc.setText(desc);
 
     }
 }
