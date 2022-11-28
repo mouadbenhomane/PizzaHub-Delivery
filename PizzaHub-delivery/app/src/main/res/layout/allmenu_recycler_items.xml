@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/pizza1" />
 
     <TextView
-        android:id="@+id/all_menu_name"
+        android:id="@+id/pizzaName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,13 +32,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/all_menu_note"
+        android:id="@+id/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Lorem ipsum dolar"
-        app:layout_constraintStart_toStartOf="@+id/all_menu_name"
-        app:layout_constraintTop_toBottomOf="@+id/all_menu_name" />
+        app:layout_constraintStart_toStartOf="@+id/pizzaName"
+        app:layout_constraintTop_toBottomOf="@+id/pizzaName" />
 
     <TextView
         android:id="@+id/all_menu_deliverytime"
@@ -51,8 +51,8 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="8sp"
-        app:layout_constraintStart_toStartOf="@+id/all_menu_note"
-        app:layout_constraintTop_toBottomOf="@+id/all_menu_note" />
+        app:layout_constraintStart_toStartOf="@+id/desc"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <TextView
         android:id="@+id/all_menu_price"

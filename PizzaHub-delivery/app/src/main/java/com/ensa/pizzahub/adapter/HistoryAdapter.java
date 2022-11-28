@@ -18,12 +18,12 @@ import com.ensa.pizzahub.model.Popular;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.PopularViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.PopularViewHolder> {
 
     private Context context;
     private List<Popular> popularList;
 
-    public CartAdapter(Context context, List<Popular> popularList) {
+    public HistoryAdapter(Context context, List<Popular> popularList) {
         this.context = context;
         this.popularList = popularList;
     }
@@ -32,7 +32,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.PopularViewHol
     @Override
     public PopularViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.cart_recycler_items, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.history_recycler_items, parent, false);
          // here we need to create a layout for recyclerview cell items.
 
 

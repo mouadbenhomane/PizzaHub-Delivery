@@ -15,7 +15,6 @@ import com.ensa.pizzahub.model.Recommended;
 import com.ensa.pizzahub.model.User;
 import com.ensa.pizzahub.retrofit.ApiInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
         //setContentView(R.layout.pizza_details);
         /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
@@ -40,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
             recommendedList.add(new Recommended());
         }
         getRecommendedData(recommendedList);*/
-        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
-        for(int i=0;i<10;i++){
-            pizzaList.add(new Popular());
-        }
-        getMyCart(pizzaList);
+//        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
+//        for(int i=0;i<10;i++){
+//            pizzaList.add(new Popular());
+//        }
+//        getMyCart(pizzaList);
 
         /*
         apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void  getMyCart(List<Popular> myCartList){
 
-        cartRecyclerView = findViewById(R.id.my_cart_view);
+        cartRecyclerView = findViewById(R.id.history_view);
         cartAdapter = new CartAdapter(this, myCartList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartRecyclerView.setLayoutManager(layoutManager);
