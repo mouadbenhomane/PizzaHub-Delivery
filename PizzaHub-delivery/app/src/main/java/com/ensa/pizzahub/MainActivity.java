@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_cart);
+        setContentView(R.layout.activity_register);
         //setContentView(R.layout.pizza_details);
         /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
