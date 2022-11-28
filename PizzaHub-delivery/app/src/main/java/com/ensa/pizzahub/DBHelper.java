@@ -105,6 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ORDER_TABLE);
         System.out.println(CREATE_USER_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+
         System.out.println(CREATE_ORDER_ITEM_TABLE);
         db.execSQL(CREATE_ORDER_ITEM_TABLE);
         System.out.println(CREATE_PIZZA_TABLE);

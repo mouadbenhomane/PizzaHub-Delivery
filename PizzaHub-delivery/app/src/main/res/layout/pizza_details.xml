@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pizzaImg" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/pizzaCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -119,7 +119,7 @@
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <RadioGroup
-        android:id="@+id/genderRadioGroup"
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
