@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.ensa.pizzahub.model.Order;
+import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
@@ -56,9 +58,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ORDER_ITEM_ID = "order_item_id";
     private static final String COLUMN_ORDER_ITEM_QUANTITY= "order_item_quantity";
     private static final String COLUMN_ORDER_ITEM_ORDER_ID= "order_item_order_id";
+    private static final String COLUMN_ORDER_ITEM_PRICE = "order_item_price";
     // create table sql query
     private String CREATE_ORDER_ITEM_TABLE = "create table " + TABLE_ORDER_ITEM + "(" + COLUMN_ORDER_ITEM_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_ITEM_QUANTITY + " integer," + COLUMN_ORDER_ITEM_ORDER_ID + "integer," +
+            COLUMN_ORDER_ITEM_QUANTITY + " integer,"+COLUMN_ORDER_ITEM_PRICE+ " NUMBER," + COLUMN_ORDER_ITEM_ORDER_ID + "integer," +
             " FOREIGN KEY("+COLUMN_ORDER_ITEM_ORDER_ID+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
     // drop user table sql query
     private String DROP_ORDER_ITEM_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER_ITEM;
@@ -289,4 +292,68 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    /**
+     * This method is to create an user order
+     *
+     * @param order
+     */
+    public void addOrder(Order order) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ORDER_USER_ID, order.getUser().getId());
+        // Inserting Row
+        Long id = db.insert(TABLE_ORDER, null, values);
+        for (OrderItem item: order.getItems()) {
+            ContentValues itemValues = new ContentValues();
+            itemValues.put(COLUMN_ORDER_ITEM_ORDER_ID, id);
+            itemValues.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
+            // Inserting Row
+            db.insert(TABLE_ORDER_ITEM, null, itemValues);
+        }
+        db.close();
+    }
+
+    /**
+     * This method is to update an user order
+     *
+     * @param order
+     */
+    public void deleteOrder(Order order) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete user record by id
+        db.delete(TABLE_ORDER, COLUMN_ORDER_ID + " = ?",
+                new String[]{String.valueOf(order.getId())});
+        db.close();
+    }
+
+    public void addOrderItem(OrderItem item){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues itemValues = new ContentValues();
+        itemValues.put(COLUMN_ORDER_ITEM_ORDER_ID, item.getOrder().getId());
+        itemValues.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
+        itemValues.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
+        // Inserting Row
+        db.insert(TABLE_ORDER_ITEM, null, itemValues);
+        db.close();
+    }
+
+    public void deleteOrderItem(OrderItem item){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // delete user record by id
+        db.delete(TABLE_ORDER_ITEM, COLUMN_ORDER_ID + " = ?",
+                new String[]{String.valueOf(item.getId())});
+        db.close();
+    }
+
+    public void updateOrderItem(OrderItem item){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ORDER_ITEM_ORDER_ID, item.getOrder().getId());
+        values.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
+        values.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
+        // updating row
+        db.update(TABLE_ORDER_ITEM, values, COLUMN_ORDER_ITEM_ID + " = ?",
+                new String[]{String.valueOf(item.getId())});
+        db.close();
+    }
 }
