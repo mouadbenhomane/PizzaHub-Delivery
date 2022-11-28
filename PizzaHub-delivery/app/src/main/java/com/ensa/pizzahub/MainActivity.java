@@ -31,18 +31,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_cart);
+        setContentView(R.layout.activity_main);
         //setContentView(R.layout.pizza_details);
-        /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
+        ArrayList<Allmenu> menuList = new ArrayList<Allmenu>();
         for(int i=0;i<10;i++){
             recommendedList.add(new Recommended());
+            menuList.add(new Allmenu());
         }
-        getRecommendedData(recommendedList);*/
-        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
+        getRecommendedData(recommendedList);
+        getAllMenu(menuList);
+        /*ArrayList<Popular> pizzaList = new ArrayList<Popular>();
         for(int i=0;i<10;i++){
             pizzaList.add(new Popular());
         }
-        getMyCart(pizzaList);
+        getMyCart(pizzaList);*/
 
         /*
         apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
