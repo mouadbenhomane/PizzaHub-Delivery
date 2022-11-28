@@ -13,8 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.ensa.pizzahub.FoodDetails;
+import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
+import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.Recommended;
 
 import java.util.List;
@@ -22,9 +23,9 @@ import java.util.List;
 public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.RecommendedViewHolder> {
 
     private Context context;
-    private List<Recommended> recommendedList;
+    private List<Pizza> recommendedList;
 
-    public RecommendedAdapter(Context context, List<Recommended> recommendedList) {
+    public RecommendedAdapter(Context context, List<Pizza> recommendedList) {
         this.context = context;
         this.recommendedList = recommendedList;
     }
@@ -38,21 +39,20 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecommendedViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-/*
-        holder.recommendedName.setText(recommendedList.get(position).getName());
-        holder.recommendedCharges.setText(recommendedList.get(position).getDeliveryCharges());
-        holder.recommendedDeliveryTime.setText(recommendedList.get(position).getDeliveryTime());
-        holder.recommendedPrice.setText(recommendedList.get(position).getPrice());
 
-        Glide.with(context).load(recommendedList.get(position).getImageUrl()).into(holder.recommendedImage);*/
+        holder.recommendedName.setText(recommendedList.get(position).getName());
+        holder.recommendedDeliveryTime.setText((int) recommendedList.get(position).getDeliveryTime());
+        holder.recommendedPrice.setText((int) recommendedList.get(position).getPrice());
+        Glide.with(context).load(recommendedList.get(position).getImagePath()).into(holder.recommendedImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, FoodDetails.class);
+                Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", recommendedList.get(position).getName());
                 i.putExtra("price", recommendedList.get(position).getPrice());
-                i.putExtra("image", recommendedList.get(position).getImageUrl());
+                i.putExtra("image", recommendedList.get(position).getImagePath());
+                i.putExtra("time", recommendedList.get(position).getDeliveryTime());
 
                 context.startActivity(i);
             }
@@ -68,7 +68,7 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
     public static class RecommendedViewHolder extends RecyclerView.ViewHolder{
 
         ImageView recommendedImage;
-        TextView recommendedName, recommendedDeliveryTime, recommendedCharges, recommendedPrice;
+        TextView recommendedName, recommendedDeliveryTime, recommendedPrice;
 
         public RecommendedViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -10,11 +10,13 @@ import com.ensa.pizzahub.adapter.AllMenuAdapter;
 import com.ensa.pizzahub.adapter.CartAdapter;
 import com.ensa.pizzahub.adapter.RecommendedAdapter;
 import com.ensa.pizzahub.model.Allmenu;
+import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.Popular;
 import com.ensa.pizzahub.model.Recommended;
 import com.ensa.pizzahub.model.User;
 import com.ensa.pizzahub.retrofit.ApiInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         dbHelper = new DBHelper(activity);
         try{
             dbHelper.addUser(new User("user1","user2@gmail.com","user123"));
@@ -40,13 +41,15 @@ public class MainActivity extends AppCompatActivity {
         }
         System.out.println(dbHelper.getAllUser().toString());
 
-        //setContentView(R.layout.pizza_details);
-        /*
-        ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
+
+        setContentView(R.layout.activity_main);
+
+        ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
         for(int i=0;i<10;i++){
-            recommendedList.add(new Recommended());
+            pizzaList.add(new Pizza("lorem ipsume", "Margarita",18.00,20,24,45,""));
         }
-        getRecommendedData(recommendedList);*/
+        getRecommendedData(pizzaList);
+        getAllMenu(pizzaList);
 //        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
 //        for(int i=0;i<10;i++){
 //            pizzaList.add(new Popular());
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void  getRecommendedData(List<Recommended> recommendedList){
+    private void  getRecommendedData(List<Pizza> recommendedList){
 
         recommendedRecyclerView = findViewById(R.id.recommended_recycler);
         recommendedAdapter = new RecommendedAdapter(this, recommendedList);
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void  getAllMenu(List<Allmenu> allmenuList){
+    private void  getAllMenu(List<Pizza> allmenuList){
 
         allMenuRecyclerView = findViewById(R.id.all_menu_recycler);
         allMenuAdapter = new AllMenuAdapter(this, allmenuList);
