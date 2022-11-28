@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.setPizzas();
 
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
         List<Pizza> pizzaList = dbHelper.getAllPizza();
         System.out.println("=================");
