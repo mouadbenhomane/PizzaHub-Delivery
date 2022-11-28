@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ensa.pizzahub.FoodDetails;
+import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Popular;
 
@@ -51,7 +51,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.PopularV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, FoodDetails.class);
+                Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", popularList.get(position).getName());
                 i.putExtra("price", popularList.get(position).getPrice());
                 i.putExtra("rating", popularList.get(position).getRating());

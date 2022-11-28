@@ -12,18 +12,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ensa.pizzahub.FoodDetails;
+import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Allmenu;
+import com.ensa.pizzahub.model.Pizza;
 
 import java.util.List;
 
 public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuViewHolder> {
 
     Context context;
-    List<Allmenu> allmenuList;
+    List<Pizza> allmenuList;
 
-    public AllMenuAdapter(Context context, List<Allmenu> allmenuList) {
+    public AllMenuAdapter(Context context, List<Pizza> allmenuList) {
         this.context = context;
         this.allmenuList = allmenuList;
     }
@@ -52,11 +53,9 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, FoodDetails.class);
+                Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", allmenuList.get(position).getName());
-                i.putExtra("price", allmenuList.get(position).getPrice());
-                i.putExtra("rating", allmenuList.get(position).getRating());
-                i.putExtra("image", allmenuList.get(position).getImageUrl());
+                i.putExtra("price", allmenuList.get(position).getPrice_m());
 
                 context.startActivity(i);
             }
