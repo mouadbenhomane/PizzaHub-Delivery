@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Allmenu;
@@ -40,22 +41,24 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
     @Override
     public void onBindViewHolder(@NonNull AllMenuViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        /*holder.allMenuName.setText(allmenuList.get(position).getName());
-        holder.allMenuPrice.setText("₹ "+allmenuList.get(position).getPrice());
-        holder.allMenuTime.setText(allmenuList.get(position).getDeliveryTime());
-        holder.allMenuRating.setText(allmenuList.get(position).getRating());
-        holder.allMenuCharges.setText(allmenuList.get(position).getDeliveryCharges());
-        holder.allMenuNote.setText(allmenuList.get(position).getNote());
+        holder.allMenuName.setText(allmenuList.get(position).getName());
+        holder.allMenuPrice.setText(String.format("%.2f",allmenuList.get(position).getPrice_m()));
+        holder.allMenuTime.setText(String.format("%.2f",allmenuList.get(position).getDeliveryTime()));
+        holder.allMenuDesc.setText(allmenuList.get(position).getDescription());
 
-        Glide.with(context).load(allmenuList.get(position).getImageUrl()).into(holder.allMenuImage);
-        */
+        Glide.with(context).load(allmenuList.get(position).getImagePath()).into(holder.allMenuImage);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", allmenuList.get(position).getName());
-                i.putExtra("price", allmenuList.get(position).getPrice_m());
+                i.putExtra("priceS", String.format("%.2f",allmenuList.get(position).getPrice_s()));
+                i.putExtra("priceM", String.format("%.2f",allmenuList.get(position).getPrice_m()));
+                i.putExtra("priceL", String.format("%.2f",allmenuList.get(position).getPrice_l()));
+                i.putExtra("image", allmenuList.get(position).getImagePath());
+                i.putExtra("time", allmenuList.get(position).getDeliveryTime());
 
                 context.startActivity(i);
             }
@@ -70,14 +73,14 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
 
     public static class AllMenuViewHolder extends RecyclerView.ViewHolder{
 
-        TextView allMenuName, allMenuNote, allMenuRating, allMenuTime, allMenuCharges, allMenuPrice;
+        TextView allMenuName, allMenuDesc, allMenuTime, allMenuPrice;
         ImageView allMenuImage;
 
         public AllMenuViewHolder(@NonNull View itemView) {
             super(itemView);
 
             allMenuName = itemView.findViewById(R.id.pizzaName);
-            allMenuNote = itemView.findViewById(R.id.desc);
+            allMenuDesc = itemView.findViewById(R.id.desc);
             allMenuTime = itemView.findViewById(R.id.all_menu_deliverytime);
             allMenuPrice = itemView.findViewById(R.id.all_menu_price);
             allMenuImage = itemView.findViewById(R.id.all_menu_image);

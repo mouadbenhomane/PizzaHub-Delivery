@@ -13,7 +13,7 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(String description, String name, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
+    public Pizza(String name,String description, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
         this.description = description;
         this.name = name;
         this.price_s = price_s;
@@ -23,7 +23,7 @@ public class Pizza {
         this.imagePath = imagePath;
     }
 
-    public Pizza(int id, String description, String name, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
+    public Pizza(int id, String name, String description, double price_s, double price_m, double price_l, double deliveryTime, String imagePath) {
         this.id = id;
         this.description = description;
         this.name = name;
@@ -96,6 +96,20 @@ public class Pizza {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    @Override
+    public String toString() {
+        return "Pizza{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", price_s=" + price_s +
+                ", price_m=" + price_m +
+                ", price_l=" + price_l +
+                ", deliveryTime=" + deliveryTime +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }
 

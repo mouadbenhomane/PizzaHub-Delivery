@@ -41,8 +41,8 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
     public void onBindViewHolder(@NonNull RecommendedViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.recommendedName.setText(recommendedList.get(position).getName());
-        holder.recommendedDeliveryTime.setText((int) recommendedList.get(position).getDeliveryTime());
-        holder.recommendedPrice.setText((int) recommendedList.get(position).getPrice_m());
+        holder.recommendedDeliveryTime.setText(String.format("%.2f",recommendedList.get(position).getDeliveryTime()));
+        holder.recommendedPrice.setText(String.format("%.2f",recommendedList.get(position).getPrice_m()));
         Glide.with(context).load(recommendedList.get(position).getImagePath()).into(holder.recommendedImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,10 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", recommendedList.get(position).getName());
-                i.putExtra("price", recommendedList.get(position).getPrice_m());
+                i.putExtra("description", recommendedList.get(position).getDescription());
+                i.putExtra("priceS", String.format("%.2f",recommendedList.get(position).getPrice_s()));
+                i.putExtra("priceM", String.format("%.2f",recommendedList.get(position).getPrice_m()));
+                i.putExtra("priceL", String.format("%.2f",recommendedList.get(position).getPrice_l()));
                 i.putExtra("image", recommendedList.get(position).getImagePath());
                 i.putExtra("time", recommendedList.get(position).getDeliveryTime());
 

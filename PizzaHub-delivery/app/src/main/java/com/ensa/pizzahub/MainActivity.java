@@ -32,25 +32,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*dbHelper = new DBHelper(activity);
-        try{
+        dbHelper = new DBHelper(activity);
+/*        try{
             dbHelper.addUser(new User("user1","user2@gmail.com","user123"));
         }
         catch (Exception e){
             System.out.println("sti");
-        }
-        System.out.println(dbHelper.getAllUser().toString());*/
+        }*/
+        dbHelper.setPizzas();
 
 
         setContentView(R.layout.activity_register);
 
-//        ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
-//        for(int i=0;i<10;i++){
-//            //pizzaList.add(new Pizza("lorem ipsume", "Margarita",18.00,20,24,45,"C:\\Users\\hp\\Desktop\\GI3\\PizzaHub-Delivery\\PizzaHub-delivery\\app\\src\\main\\res\\drawable\\froma4.png"));
-//            pizzaList.add(new Pizza());
-//        }
-//        getRecommendedData(pizzaList);
-        //getAllMenu(pizzaList);
+        ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
+        for(int i=0;i<10;i++){
+            pizzaList.add(new Pizza("lorem ipsume", "Margarita",16.00,20,24,45,"https://i.ibb.co/kMJTpf6/froma3.png"));
+            //pizzaList.add(new Pizza());
+        }
+        getRecommendedData(pizzaList);
+        getAllMenu(pizzaList);
 //        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
 //        for(int i=0;i<10;i++){
 //            pizzaList.add(new Popular());
