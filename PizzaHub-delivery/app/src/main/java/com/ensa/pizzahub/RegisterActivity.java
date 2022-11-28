@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ensa.pizzahub.adapter.AllMenuAdapter;
+import com.ensa.pizzahub.model.Allmenu;
 import com.ensa.pizzahub.model.User;
 
 import java.util.regex.Matcher;
@@ -54,20 +56,30 @@ public class RegisterActivity extends AppCompatActivity {
                 else if(isEmpty(password.getText().toString())) {
                     password.setError("password is required!");
                 }
+                else if(password.getText().toString().length()<8) {
+                    password.setError("password must be more than 8 characters !");
+                }
                 else if(isEmpty( confirmPassword.getText().toString())) {
                     confirmPassword.setError("confirm you password");
-                }else if(password.equals(confirmPassword) ){
-                    Toast t = Toast.makeText(RegisterActivity.this, "Password doesn't match!", Toast.LENGTH_SHORT);
-                    t.show();
+                }else if(!(password.getText().toString().equals(confirmPassword.getText().toString()) )){
+                    confirmPassword.setError("password doesn't match!");
                 }
                 else{
-                    User user= new User( username+"",email+"",password+"");
+                    User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString());
                     try {
                         dbHelper.addUser(user);
+                        Toast t = Toast.makeText(RegisterActivity.this, "Success!", Toast.LENGTH_SHORT);
+                        t.show();
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
                     } catch (Exception e) {
-                        System.out.println("6");
+                        Toast t = Toast.makeText(RegisterActivity.this, "Email already exist!", Toast.LENGTH_SHORT);
+                        t.show();
+                        e.printStackTrace();
+
 
                     }
+
                 }
             }
         });
