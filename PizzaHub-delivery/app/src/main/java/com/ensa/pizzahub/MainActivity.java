@@ -14,7 +14,6 @@ import com.ensa.pizzahub.model.Popular;
 import com.ensa.pizzahub.model.Recommended;
 import com.ensa.pizzahub.retrofit.ApiInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void  getMyCart(List<Popular> myCartList){
 
-        cartRecyclerView = findViewById(R.id.my_cart_view);
+        cartRecyclerView = findViewById(R.id.history_view);
         cartAdapter = new CartAdapter(this, myCartList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartRecyclerView.setLayoutManager(layoutManager);
