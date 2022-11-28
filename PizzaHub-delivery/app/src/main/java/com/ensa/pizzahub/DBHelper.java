@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
 import java.util.ArrayList;
@@ -62,6 +63,29 @@ public class DBHelper extends SQLiteOpenHelper {
     // drop user table sql query
     private String DROP_ORDER_ITEM_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER_ITEM;
 
+    // Pizza Section
+    private static final String TABLE_PIZZA = "pizza";
+    // Pizza Table Columns names
+    private static final String COLUMN_PIZZA_ID = "pizza_id";
+    private static final String COLUMN_PIZZA_NAME = "pizza_name";
+    private static final String COLUMN_PIZZA_DESCRIPTION = "pizza_description";
+    private static final String COLUMN_PIZZA_PRICE = "pizza_price";
+    private static final String COLUMN_PIZZA_DELIVERY_TIME = "pizza_delivery_time";
+    private static final String COLUMN_PIZZA_SIZE = "pizza_size";
+    private static final String COLUMN_PIZZA_IMAGE = "pizza_image";
+
+
+    // create table sql query
+    private String CREATE_PIZZA_TABLE = "CREATE TABLE " + TABLE_PIZZA + "("
+            + COLUMN_PIZZA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_PIZZA_NAME + " TEXT,"
+            + COLUMN_PIZZA_DESCRIPTION + " TEXT," + COLUMN_PIZZA_PRICE + " NUMBER,"+
+            COLUMN_PIZZA_DELIVERY_TIME + " NUMBER,"+COLUMN_PIZZA_SIZE+" INTEGER,"+
+            COLUMN_PIZZA_IMAGE+" TEXT)";
+    // drop user table sql query
+    private String DROP_PIZZA_TABLE = "DROP TABLE IF EXISTS " + TABLE_PIZZA;
+
+
+
 
     public DBHelper(Context context ) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION );
@@ -106,6 +130,10 @@ public class DBHelper extends SQLiteOpenHelper {
             db.insert(TABLE_USER, null, values);
             db.close();
         }
+
+    }
+
+    public void addPizza(Pizza pizza){
 
     }
     /**

@@ -2,6 +2,9 @@ package com.ensa.pizzahub.model;
 
 public class User {
     private int id;
+    private String name;
+    private String email;
+    private String password;
 
     public User() {
     }
@@ -19,9 +22,7 @@ public class User {
         this.password = password;
     }
 
-    private String name;
-    private String email;
-    private String password;
+
     public int getId() {
         return id;
     }

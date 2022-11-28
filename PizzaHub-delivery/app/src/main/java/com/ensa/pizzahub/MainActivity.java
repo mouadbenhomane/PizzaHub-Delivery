@@ -31,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        dbHelper = new DBHelper(activity);
+        try{
+            dbHelper.addUser(new User("user1","user2@gmail.com","user123"));
+        }
+        catch (Exception e){
+            System.out.println("sti");
+        }
+        System.out.println(dbHelper.getAllUser().toString());
+
         //setContentView(R.layout.pizza_details);
         /*
         ArrayList<Recommended> recommendedList = new ArrayList<Recommended>();
