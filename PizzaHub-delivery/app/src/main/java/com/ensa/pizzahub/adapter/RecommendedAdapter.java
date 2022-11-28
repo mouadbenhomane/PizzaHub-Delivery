@@ -41,8 +41,8 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
     public void onBindViewHolder(@NonNull RecommendedViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.recommendedName.setText(recommendedList.get(position).getName());
-        holder.recommendedDeliveryTime.setText((int) recommendedList.get(position).getDeliveryTime());
-        holder.recommendedPrice.setText((int) recommendedList.get(position).getPrice_m());
+        holder.recommendedDeliveryTime.setText(String.format("%.2f",recommendedList.get(position).getDeliveryTime()));
+        holder.recommendedPrice.setText(String.format("%.2f",recommendedList.get(position).getPrice_m()));
         Glide.with(context).load(recommendedList.get(position).getImagePath()).into(holder.recommendedImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

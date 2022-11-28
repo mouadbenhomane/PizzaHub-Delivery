@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
         for(int i=0;i<10;i++){
-            //pizzaList.add(new Pizza("lorem ipsume", "Margarita",18.00,20,24,45,"C:\\Users\\hp\\Desktop\\GI3\\PizzaHub-Delivery\\PizzaHub-delivery\\app\\src\\main\\res\\drawable\\froma4.png"));
-            pizzaList.add(new Pizza());
+            pizzaList.add(new Pizza("lorem ipsume", "Margarita",16.00,20,24,45,"C:\\Users\\hp\\Desktop\\GI3\\PizzaHub-Delivery\\PizzaHub-delivery\\app\\src\\main\\res\\drawable\\froma4.png"));
+            //pizzaList.add(new Pizza());
         }
         getRecommendedData(pizzaList);
         //getAllMenu(pizzaList);
