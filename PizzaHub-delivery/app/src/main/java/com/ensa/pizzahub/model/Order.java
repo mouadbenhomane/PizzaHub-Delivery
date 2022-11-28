@@ -55,6 +55,16 @@ public class Order {
     public void setItems(List<OrderItem> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", state=" + state +
+                ", items=" + items.toString() +
+                ", user=" + user +
+                '}';
+    }
 }
 
 enum State {

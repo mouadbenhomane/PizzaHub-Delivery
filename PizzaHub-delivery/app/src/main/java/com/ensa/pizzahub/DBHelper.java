@@ -13,6 +13,7 @@ import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     // Database Name
     private static final String DATABASE_NAME = "Userdata.db";
 
@@ -46,8 +47,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ORDER_USER_ID = "order_user_id";
     // create table sql query
     private String CREATE_ORDER_TABLE = "create table " + TABLE_ORDER + "(" + COLUMN_ORDER_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_STATE + " integer," + COLUMN_ORDER_USER_ID + "integer," +
-            " FOREIGN KEY("+COLUMN_USER_ID+") REFERENCES "+TABLE_USER+"("+COLUMN_USER_ID+"))";
+            COLUMN_ORDER_STATE + " integer," + COLUMN_ORDER_USER_ID + " integer," +
+            " FOREIGN KEY("+COLUMN_ORDER_USER_ID+") REFERENCES "+TABLE_USER+"("+COLUMN_USER_ID+"))";
     // drop user table sql query
     private String DROP_ORDER_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER;
 
@@ -61,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ORDER_ITEM_PRICE = "order_item_price";
     // create table sql query
     private String CREATE_ORDER_ITEM_TABLE = "create table " + TABLE_ORDER_ITEM + "(" + COLUMN_ORDER_ITEM_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_ITEM_QUANTITY + " integer,"+COLUMN_ORDER_ITEM_PRICE+ " NUMBER," + COLUMN_ORDER_ITEM_ORDER_ID + "integer," +
+            COLUMN_ORDER_ITEM_QUANTITY + " integer,"+COLUMN_ORDER_ITEM_PRICE+ " NUMBER," + COLUMN_ORDER_ITEM_ORDER_ID + " integer," +
             " FOREIGN KEY("+COLUMN_ORDER_ITEM_ORDER_ID+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
     // drop user table sql query
     private String DROP_ORDER_ITEM_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER_ITEM;
@@ -82,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // create table sql query
     private String CREATE_PIZZA_TABLE = "CREATE TABLE " + TABLE_PIZZA + "("
-            + COLUMN_PIZZA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_PIZZA_NAME + " TEXT,"
+            + COLUMN_PIZZA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_PIZZA_NAME + " TEXT UNIQUE,"
             + COLUMN_PIZZA_DESCRIPTION + " TEXT," + COLUMN_PIZZA_PRICE_S + " NUMBER,"+
             COLUMN_PIZZA_PRICE_M + " NUMBER,"+
             COLUMN_PIZZA_PRICE_L + " NUMBER,"+
@@ -99,13 +100,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase DB) {
+    public void onCreate(SQLiteDatabase db) {
         System.out.println(CREATE_USER_TABLE);
-        DB.execSQL(CREATE_USER_TABLE);
+        db.execSQL(CREATE_USER_TABLE);
         System.out.println(CREATE_ORDER_TABLE);
-        DB.execSQL(CREATE_ORDER_TABLE);
+        db.execSQL(CREATE_ORDER_TABLE);
         System.out.println(CREATE_ORDER_ITEM_TABLE);
-        DB.execSQL(CREATE_ORDER_ITEM_TABLE);
+        db.execSQL(CREATE_ORDER_ITEM_TABLE);
+        System.out.println(CREATE_PIZZA_TABLE);
+        db.execSQL(CREATE_PIZZA_TABLE);
     }
 
     @Override
@@ -114,6 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_USER_TABLE);
         db.execSQL(DROP_ORDER_TABLE);
         db.execSQL(DROP_ORDER_ITEM_TABLE);
+        db.execSQL(DROP_PIZZA_TABLE);
         // Create tables again
         onCreate(db);
     }
@@ -410,5 +414,72 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(TABLE_ORDER_ITEM, values, COLUMN_ORDER_ITEM_ID + " = ?",
                 new String[]{String.valueOf(item.getId())});
         db.close();
+    }
+
+    public void setPizzas() {
+        addPizza(new Pizza("4Fromages",
+                "Coulis, chevre, mozzarella, emmenthal, roquefort, creme fraiche, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/DzPTGC6/froma4.png"));
+        addPizza(new Pizza("Regina" ,
+                "Coulis, chorizo, poivrons, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/DLjHY42/regina.png"));
+        addPizza(new Pizza("Chorizo" ,
+                "Coulis, jambon, champignons, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/MCsjXHH/chorizo.png"));
+        addPizza(new Pizza("Marguerita",
+                "Coulis, double fromages, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/LZsJ2Jj/marguerita.png"));
+        addPizza(new Pizza("Campagne",
+                "Coulis, double chevre, champignons, herbes de Provence, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/tM7JD3Y/campagne.png"));
+        addPizza(new Pizza("Poulet"  ,
+                "Coulis, poulet, chevre, creme fraiche, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/MfwpcXN/poulet.png"));
+        addPizza(new Pizza("3Fromages"   ,
+                "Coulis, poulet, chevre, creme fraiche, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/MfwpcXN/poulet.png"));
+        addPizza(new Pizza("Chevre",
+                "Coulis, chevre, creme fraiche, oeuf, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/bWvRRV3/chevre.png"));
+        addPizza(new Pizza("Champignons" ,
+                "Coulis, champignons, fromage, olives.",
+                12,
+                18,
+                25,
+                5,
+                "https://i.ibb.co/Xx0sRcy/champi.png"));
+        System.out.println(getAllPizza().toString());
     }
 }

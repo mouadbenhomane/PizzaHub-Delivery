@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*dbHelper = new DBHelper(activity);
-        try{
+        dbHelper = new DBHelper(activity);
+/*        try{
             dbHelper.addUser(new User("user1","user2@gmail.com","user123"));
         }
         catch (Exception e){
             System.out.println("sti");
-        }
-        System.out.println(dbHelper.getAllUser().toString());*/
+        }*/
+        dbHelper.setPizzas();
 
 
         setContentView(R.layout.activity_main);
