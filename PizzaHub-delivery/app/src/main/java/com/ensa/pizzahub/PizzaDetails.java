@@ -21,7 +21,7 @@ public class PizzaDetails extends AppCompatActivity {
     ImageView imageView;
     TextView itemName, itemPrice,itemDesc,pizzaCount;
     RadioGroup radioGroup;
-    Button plus,minus;
+    Button plus,minus,addToCard;
     String name, priceS, priceM, priceL, imageUrl,desc;
     Double currentPrice;
 

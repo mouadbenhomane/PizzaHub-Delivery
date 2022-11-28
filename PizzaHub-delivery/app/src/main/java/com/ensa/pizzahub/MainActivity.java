@@ -44,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
-        for(int i=0;i<10;i++){
-            pizzaList.add(new Pizza("lorem ipsume", "Margarita",16.00,20,24,45,"https://i.ibb.co/kMJTpf6/froma3.png"));
-            //pizzaList.add(new Pizza());
-        }
+        List<Pizza> pizzaList = dbHelper.getAllPizza();
+        System.out.println("=================");
+        System.out.println(pizzaList);
+        System.out.println("=================");
         getRecommendedData(pizzaList);
         getAllMenu(pizzaList);
 //        ArrayList<Popular> pizzaList = new ArrayList<Popular>();
