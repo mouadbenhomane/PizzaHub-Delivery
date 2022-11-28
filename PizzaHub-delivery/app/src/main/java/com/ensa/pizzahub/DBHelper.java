@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     
     // Database Name
     private static final String DATABASE_NAME = "Userdata.db";
@@ -33,10 +33,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
+    private static final String COLUMN_USER_ORDER = "user_order";
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
+            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT," +COLUMN_USER_ORDER+" INTEGER, FOREIGN KEY("+COLUMN_USER_ORDER+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
     // drop user table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
 
@@ -45,11 +46,9 @@ public class DBHelper extends SQLiteOpenHelper {
     // Order Table Columns names
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_ORDER_STATE = "order_state";
-    private static final String COLUMN_ORDER_USER_ID = "order_user_id";
     // create table sql query
     private String CREATE_ORDER_TABLE = "create table " + TABLE_ORDER + "(" + COLUMN_ORDER_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_STATE + " integer," + COLUMN_ORDER_USER_ID + " integer," +
-            " FOREIGN KEY("+COLUMN_ORDER_USER_ID+") REFERENCES "+TABLE_USER+"("+COLUMN_USER_ID+"))";
+            COLUMN_ORDER_STATE + " integer)";
     // drop user table sql query
     private String DROP_ORDER_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER;
 
@@ -102,10 +101,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.out.println(CREATE_USER_TABLE);
-        db.execSQL(CREATE_USER_TABLE);
         System.out.println(CREATE_ORDER_TABLE);
         db.execSQL(CREATE_ORDER_TABLE);
+        System.out.println(CREATE_USER_TABLE);
+        db.execSQL(CREATE_USER_TABLE);
         System.out.println(CREATE_ORDER_ITEM_TABLE);
         db.execSQL(CREATE_ORDER_ITEM_TABLE);
         System.out.println(CREATE_PIZZA_TABLE);
@@ -138,6 +137,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_USER_NAME, user.getName());
             values.put(COLUMN_USER_EMAIL, user.getEmail());
             values.put(COLUMN_USER_PASSWORD, user.getPassword());
+            values.put(COLUMN_USER_ORDER, user.getOrder().getId());
             // Inserting Row
             db.insert(TABLE_USER, null, values);
             db.close();
@@ -237,6 +237,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 pizza.setPrice_s(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_S)));
                 pizza.setPrice_m(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_M)));
                 pizza.setPrice_l(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_L)));
+                pizza.setDeliveryTime(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_DELIVERY_TIME)));
+                pizza.setImagePath(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_IMAGE)));
 
                 // Adding pizza record to list
                 pizzaList.add(pizza);
@@ -383,7 +385,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ORDER_USER_ID, order.getUser().getId());
         // Inserting Row
         Long id = db.insert(TABLE_ORDER, null, values);
         for (OrderItem item: order.getItems()) {
