@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.FoodDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Allmenu;
@@ -78,8 +77,8 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
         public AllMenuViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            allMenuName = itemView.findViewById(R.id.all_menu_name);
-            allMenuNote = itemView.findViewById(R.id.all_menu_note);
+            allMenuName = itemView.findViewById(R.id.pizzaName);
+            allMenuNote = itemView.findViewById(R.id.desc);
             allMenuTime = itemView.findViewById(R.id.all_menu_deliverytime);
             allMenuPrice = itemView.findViewById(R.id.all_menu_price);
             allMenuImage = itemView.findViewById(R.id.all_menu_image);

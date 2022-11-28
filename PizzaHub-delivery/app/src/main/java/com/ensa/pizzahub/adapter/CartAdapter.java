@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.FoodDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Popular;
@@ -77,7 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.PopularViewHol
         public PopularViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            popularName = itemView.findViewById(R.id.all_menu_name);
+            popularName = itemView.findViewById(R.id.pizzaName);
             popularImage = itemView.findViewById(R.id.all_menu_image);
 
         }
