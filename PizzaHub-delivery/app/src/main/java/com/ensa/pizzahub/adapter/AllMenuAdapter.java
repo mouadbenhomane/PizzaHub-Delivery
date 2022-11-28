@@ -55,7 +55,7 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("name", allmenuList.get(position).getName());
-                i.putExtra("price", allmenuList.get(position).getPrice());
+                i.putExtra("price", allmenuList.get(position).getPrice_m());
 
                 context.startActivity(i);
             }
