@@ -17,6 +17,7 @@ import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Allmenu;
 import com.ensa.pizzahub.model.Pizza;
+import com.ensa.pizzahub.model.User;
 
 import java.util.List;
 
@@ -24,10 +25,12 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
 
     Context context;
     List<Pizza> allmenuList;
+    User user;
 
-    public AllMenuAdapter(Context context, List<Pizza> allmenuList) {
+    public AllMenuAdapter(Context context, List<Pizza> allmenuList,User user) {
         this.context = context;
         this.allmenuList = allmenuList;
+        this.user = user;
     }
 
     @NonNull
@@ -54,6 +57,7 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("pizza", allmenuList.get(position));
+                i.putExtra("user", user);
                 context.startActivity(i);
             }
         });
