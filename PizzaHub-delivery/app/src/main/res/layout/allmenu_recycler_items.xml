@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pizzaName" />
 
     <TextView
-        android:id="@+id/all_menu_deliverytime"
+        android:id="@+id/timeD"
         android:layout_width="40dp"
         android:layout_height="15dp"
         android:layout_marginTop="8dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <TextView
-        android:id="@+id/all_menu_price"
+        android:id="@+id/pirce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

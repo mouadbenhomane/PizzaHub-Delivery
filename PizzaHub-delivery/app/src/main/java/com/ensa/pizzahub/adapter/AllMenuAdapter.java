@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
-import com.ensa.pizzahub.model.Allmenu;
 import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
@@ -79,8 +78,8 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
 
             allMenuName = itemView.findViewById(R.id.pizzaName);
             allMenuDesc = itemView.findViewById(R.id.desc);
-            allMenuTime = itemView.findViewById(R.id.all_menu_deliverytime);
-            allMenuPrice = itemView.findViewById(R.id.all_menu_price);
+            allMenuTime = itemView.findViewById(R.id.timeD);
+            allMenuPrice = itemView.findViewById(R.id.pirce);
             allMenuImage = itemView.findViewById(R.id.all_menu_image);
         }
     }

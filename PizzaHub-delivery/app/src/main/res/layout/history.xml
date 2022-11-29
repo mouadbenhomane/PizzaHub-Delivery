@@ -33,7 +33,7 @@
         android:layout_marginTop="7dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_view"
+            android:id="@+id/historyView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

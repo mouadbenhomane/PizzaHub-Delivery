@@ -12,14 +12,12 @@
 
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/pizzaPhoto"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginEnd="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/remove"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/pizza1" />
 
     <TextView
@@ -45,12 +43,12 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/pizzaPhoto"
         app:layout_constraintHorizontal_bias="0.775"
-        app:layout_constraintStart_toEndOf="@+id/all_menu_price" />
+        app:layout_constraintStart_toEndOf="@+id/pirce" />
 
     <TextView
-        android:id="@+id/all_menu_price"
+        android:id="@+id/pirce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -64,10 +62,9 @@
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Lorem ipsum dolar"
+        android:text="Lorem ipsum dolarLorem ipsum dolarLorem ipsum dolar"
         app:layout_constraintStart_toStartOf="@+id/pizzaName"
         app:layout_constraintTop_toBottomOf="@+id/pizzaName" />
 
@@ -75,15 +72,16 @@
         android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:text="small"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/pirce"
         app:layout_constraintStart_toStartOf="@+id/desc"
         app:layout_constraintTop_toBottomOf="@+id/desc" />
 
     <TextView
-        android:id="@+id/all_menu_deliverytime"
+        android:id="@+id/timeD"
         android:layout_width="40dp"
         android:layout_height="15dp"
         android:layout_marginStart="28dp"
@@ -99,12 +97,11 @@
 
     <Button
         android:id="@+id/remove"
-        android:layout_width="60dp"
+        android:layout_width="55dp"
         android:layout_height="120dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:background="@drawable/remove"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
