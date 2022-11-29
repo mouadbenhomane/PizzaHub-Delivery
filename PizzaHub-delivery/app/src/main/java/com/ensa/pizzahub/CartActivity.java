@@ -46,20 +46,25 @@ public class CartActivity extends AppCompatActivity {
         orderItemList = user.getOrder().getItems();
         TextView totalPrice = findViewById(R.id.totalPrice);
         Button purshase = findViewById(R.id.purchase2);
-        Double price = calculatTotalPrice(orderItemList);
-        totalPrice.setText("Total : "+String.format("%.2f",price)+" MAD");
-        getMyCart(orderItemList);
-        purshase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                user.getOrder().setState(State.CONFIRMED);
-                user.getOrder().setDate(new Date());
-                dbHelper.updateOrder(user.getOrder());
-                user = dbHelper.updateUserOrders(user);
-                Toast t = Toast.makeText(CartActivity.this, "Operation Successfully", Toast.LENGTH_SHORT);
-                t.show();
-            }
-        });
+
+        if(orderItemList.size()!=0) {
+            Double price = calculatTotalPrice(orderItemList);
+            totalPrice.setText("Total : "+String.format("%.2f",price)+" MAD");
+            getMyCart(orderItemList);
+            purshase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    user.getOrder().setState(State.CONFIRMED);
+                    user.getOrder().setDate(new Date());
+                    dbHelper.updateOrder(user.getOrder());
+                    user = dbHelper.updateUserOrders(user);
+                    Toast t = Toast.makeText(CartActivity.this, "Operation Successfully", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            });
+        }else{
+            totalPrice.setText("Total : 0.00 MAD");
+        }
     }
     private Double calculatTotalPrice(List<OrderItem> list){
         Double p=0.0;

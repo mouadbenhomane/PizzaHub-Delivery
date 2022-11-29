@@ -82,10 +82,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbHelper.deleteOrderItem(orderItemListList.get(position));
                 Double currentTotal = calculatTotalPrice(orderItemListList);
                 Double toSubstract = orderItemListList.get(position).getPrice();
                 totalPrice.setText("Total : "+String.format("%.2f",currentTotal-toSubstract)+" MAD");
+                dbHelper.deleteOrderItem(orderItemListList.get(position));
                 orderItemListList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, orderItemListList.size());

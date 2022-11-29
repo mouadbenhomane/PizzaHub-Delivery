@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(activity);
-        //user = getIntent().getParcelableExtra("user");
+        user = getIntent().getParcelableExtra("user");
         dbHelper.setPizzas();
         context =this;
 
