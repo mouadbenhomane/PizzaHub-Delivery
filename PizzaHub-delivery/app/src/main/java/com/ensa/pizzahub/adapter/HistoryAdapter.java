@@ -42,20 +42,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         /*
-        holder.popularName.setText(popularList.get(position).getName());
+        holder.name.setText(popularList.get(position).getName());
+        holder.desc.setText(popularList.get(position).getName());
+        holder.price.setText(popularList.get(position).getName());
+        holder.size.setText(popularList.get(position).getName());
+        holder.quantity.setText(popularList.get(position).getName());
+        holder.state.setText(popularList.get(position).getName());
 
-        // for image we add Glide library dependency for image fetching from server
-
-        Glide.with(context).load(popularList.get(position).getImageUrl()).into(holder.popularImage);
+        Glide.with(context).load(popularList.get(position).getImageUrl()).into(holder.itemImage);
         */
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, PizzaDetails.class);
-
-                context.startActivity(i);
-            }
-        });
 
     }
 

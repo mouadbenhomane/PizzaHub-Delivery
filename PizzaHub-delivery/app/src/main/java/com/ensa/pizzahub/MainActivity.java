@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -47,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         historyButton = findViewById(R.id.historyButton);
 
         pizzaList = dbHelper.getAllPizza();
-        System.out.println("=================");
-        System.out.println(pizzaList);
-        System.out.println("=================");
         getRecommendedData(pizzaList);
         getAllMenu(pizzaList);
         for(Pizza p : pizzaList){
@@ -81,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
+    }
+    public void onBackPressed() {
+        System.out.println("=============Back==============");
     }
     private Double calculatTotalPrice(List<OrderItem> list){
         Double p=0.0;
