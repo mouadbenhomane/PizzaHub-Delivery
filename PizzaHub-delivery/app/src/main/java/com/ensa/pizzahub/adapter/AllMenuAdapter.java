@@ -53,13 +53,7 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
-                i.putExtra("name", allmenuList.get(position).getName());
-                i.putExtra("priceS", String.format("%.2f",allmenuList.get(position).getPrice_s()));
-                i.putExtra("priceM", String.format("%.2f",allmenuList.get(position).getPrice_m()));
-                i.putExtra("priceL", String.format("%.2f",allmenuList.get(position).getPrice_l()));
-                i.putExtra("image", allmenuList.get(position).getImagePath());
-                i.putExtra("time", allmenuList.get(position).getDeliveryTime());
-
+                i.putExtra("pizza", allmenuList.get(position));
                 context.startActivity(i);
             }
         });

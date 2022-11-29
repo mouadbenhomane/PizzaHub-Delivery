@@ -13,6 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ensa.pizzahub.model.Order;
+import com.ensa.pizzahub.model.OrderItem;
+import com.ensa.pizzahub.model.Pizza;
 
 public class PizzaDetails extends AppCompatActivity {
 
@@ -24,23 +27,24 @@ public class PizzaDetails extends AppCompatActivity {
     Button plus,minus,addToCard;
     String name, priceS, priceM, priceL, imageUrl,desc;
     Double currentPrice;
+    Pizza pizza;
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "DefaultLocale"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pizza_details);
 
-        Intent intent = getIntent();
+        pizza = getIntent().getParcelableExtra("pizza");
 
-        name = intent.getStringExtra("name");
-        priceS = intent.getStringExtra("priceS");
-        priceM = intent.getStringExtra("priceM");
-        priceL = intent.getStringExtra("priceL");
-        imageUrl = intent.getStringExtra("image");
-        imageUrl = intent.getStringExtra("image");
-        desc = intent.getStringExtra("description");
+        name = pizza.getName();
+        priceS = String.format("%.2f",pizza.getPrice_s());
+        priceM = String.format("%.2f",pizza.getPrice_m());
+        priceL = String.format("%.2f",pizza.getPrice_l());
+        imageUrl = pizza.getImagePath();
+        desc = pizza.getDescription();
+
 
         itemDesc = findViewById(R.id.textView8);
         itemName = findViewById(R.id.name);
@@ -49,9 +53,10 @@ public class PizzaDetails extends AppCompatActivity {
         pizzaCount = findViewById(R.id.pizzaCount);
         plus = findViewById(R.id.addPizza);
         minus = findViewById(R.id.minusPizza);
+        addToCard = findViewById(R.id.addToCard);
 
         Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
-        itemName.setText(name);
+        itemName.setText(pizza.getName());
         itemPrice.setText(priceM);
         currentPrice=Double.parseDouble(priceM);
         itemDesc.setText(desc);
@@ -75,6 +80,12 @@ public class PizzaDetails extends AppCompatActivity {
                     pizzaCount.setText(count+"");
                     itemPrice.setText(String.format("%.2f",currentPrice*count));
                 }
+            }
+        });
+        addToCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),new Order(),Double.parseDouble(itemPrice.getText().toString()));
             }
         });
 
