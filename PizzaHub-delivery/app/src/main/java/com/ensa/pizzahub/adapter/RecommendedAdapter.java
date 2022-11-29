@@ -53,7 +53,7 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("pizza", recommendedList.get(position));
-                i.putExtra("user", recommendedList.get(position));
+                i.putExtra("user", user);
                 context.startActivity(i);
             }
         });

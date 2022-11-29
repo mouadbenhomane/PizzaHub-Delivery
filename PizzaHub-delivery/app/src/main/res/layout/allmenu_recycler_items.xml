@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
+    android:layout_marginLeft="16dp"
     android:layout_marginTop="4dp"
     android:layout_marginEnd="4dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginRight="16dp"
     android:background="@drawable/recycler_bg2">
 
 
@@ -33,10 +33,10 @@
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Lorem ipsum dolar"
+        android:text="Lorem ipsum dolarLorem ipsum dolarLorem ipsum dolarLorem ipsum dolar"
         app:layout_constraintStart_toStartOf="@+id/pizzaName"
         app:layout_constraintTop_toBottomOf="@+id/pizzaName" />
 
@@ -44,13 +44,15 @@
         android:id="@+id/all_menu_deliverytime"
         android:layout_width="40dp"
         android:layout_height="15dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/time_bg"
         android:gravity="center"
         android:text="45 mins"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/desc"
         app:layout_constraintTop_toBottomOf="@+id/desc" />
 
@@ -69,4 +71,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.473" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="3000dp"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/big_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
