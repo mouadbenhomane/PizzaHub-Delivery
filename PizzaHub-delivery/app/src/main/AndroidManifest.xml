@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.ensa.pizzahub.PizzaDetails"></activity>
         <activity android:name="com.ensa.pizzahub.CartActivity"></activity>
+        <activity android:name="com.ensa.pizzahub.HistoryActivity"></activity>
         <activity android:name="com.ensa.pizzahub.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

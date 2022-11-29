@@ -37,8 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
         dbHelper = new DBHelper(activity);
-        user=new User();
-        dbHelper.setPizzas();
+        pizzaList =dbHelper.getAllPizza();
         context =this;
 
         for(Pizza p : pizzaList){

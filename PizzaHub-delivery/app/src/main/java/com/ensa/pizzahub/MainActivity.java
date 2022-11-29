@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         historyButton = findViewById(R.id.historyButton);
 
         pizzaList = dbHelper.getAllPizza();
-        System.out.println("=================");
+/*        System.out.println("=================");
         System.out.println(dbHelper.getAllUser().toString());
         User user = new User("hamza","hamza@email.com","hamza123");
         try{
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         user.getOrder().setDate(new Date());
         dbHelper.updateOrder(user.getOrder());
         user = dbHelper.updateUserOrders(user);
-        System.out.println(user);
+        System.out.println(user);*/
         System.out.println(pizzaList);
         System.out.println("=================");
         getRecommendedData(pizzaList);
@@ -85,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.history);
-                getMyHistory(orderItemList);
+                Intent i = new Intent(context, HistoryActivity.class);
+                i.putExtra("user", user);
+                context.startActivity(i);
             }
         });
         //Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
