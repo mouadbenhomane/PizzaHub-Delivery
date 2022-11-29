@@ -68,10 +68,11 @@ public class RegisterActivity extends AppCompatActivity {
                 else{
                     User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString());
                     try {
-                        dbHelper.addUser(user);
-                        Toast t = Toast.makeText(RegisterActivity.this, "Success!", Toast.LENGTH_SHORT);
-                        t.show();
-                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        user=dbHelper.addUser(user);
+                        //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                        i.putExtra("user", user);
+                        RegisterActivity.this.startActivity(i);
 
                     } catch (Exception e) {
                         Toast t = Toast.makeText(RegisterActivity.this, "Email already exist!", Toast.LENGTH_SHORT);

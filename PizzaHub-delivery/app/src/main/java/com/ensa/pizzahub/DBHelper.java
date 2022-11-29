@@ -135,7 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param user
      */
-    public void addUser(User user) throws Exception {
+    public User addUser(User user) throws Exception {
         if(checkUser(user.getEmail())){
             throw new Exception("Email already exist!");
         }
@@ -147,8 +147,10 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_USER_PASSWORD, user.getPassword());
             //values.put(COLUMN_USER_ORDER, user.getOrder().getId());
             // Inserting Row
-            db.insert(TABLE_USER, null, values);
+            Long id=db.insert(TABLE_USER, null, values);
+            user.setId(id.intValue());
             db.close();
+            return user;
         }
 
     }

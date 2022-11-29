@@ -14,14 +14,15 @@
         <activity android:name="com.ensa.pizzahub.PizzaDetails"></activity>
         <activity android:name="com.ensa.pizzahub.CartActivity"></activity>
         <activity android:name="com.ensa.pizzahub.HistoryActivity"></activity>
-        <activity android:name="com.ensa.pizzahub.MainActivity">
+        <activity android:name="com.ensa.pizzahub.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

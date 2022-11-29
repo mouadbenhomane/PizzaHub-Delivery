@@ -46,7 +46,9 @@ public class LoginActivity extends AppCompatActivity {
             password.setText(loginPreferences.getString("password", ""));
             saveLoginCheckBox.setChecked(true);
             if(dbHelper.checkUser(email.getText().toString(),password.getText().toString())!=null){
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                i.putExtra("user", dbHelper.checkUser(email.getText().toString(),password.getText().toString()));
+                LoginActivity.this.startActivity(i);
             }
         }
 
@@ -79,9 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     if(dbHelper.checkUser(email.getText().toString(),password.getText().toString())!=null){
 
-                        Toast t = Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT);
-                        t.show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        i.putExtra("user", dbHelper.checkUser(email.getText().toString(),password.getText().toString()));
+                        LoginActivity.this.startActivity(i);
                     }
                     else{
                         Toast t = Toast.makeText(LoginActivity.this, "email or password incorrect", Toast.LENGTH_SHORT);
