@@ -1,5 +1,7 @@
 package com.ensa.pizzahub;
 
+import static com.ensa.pizzahub.model.ItemSize.MEDIUM;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +40,7 @@ public class CartActivity extends AppCompatActivity {
         pizzaList = dbHelper.getAllPizza();
         user = getIntent().getParcelableExtra("user");
         for(Pizza p : pizzaList){
-            orderItemList.add(new OrderItem(p,5,new Order(),20.00));
+            orderItemList.add(new OrderItem(p,5,new Order(),20.00,MEDIUM));
         }
         TextView totalPrice = findViewById(R.id.totalPrice);
         Button purshase = findViewById(R.id.purchase2);

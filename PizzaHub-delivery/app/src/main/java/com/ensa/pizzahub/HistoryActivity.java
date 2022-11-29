@@ -14,6 +14,7 @@ import com.ensa.pizzahub.adapter.AllMenuAdapter;
 import com.ensa.pizzahub.adapter.CartAdapter;
 import com.ensa.pizzahub.adapter.HistoryAdapter;
 import com.ensa.pizzahub.adapter.RecommendedAdapter;
+import com.ensa.pizzahub.model.ItemSize;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
@@ -50,7 +51,7 @@ public class HistoryActivity extends AppCompatActivity {
         getRecommendedData(pizzaList);
         getAllMenu(pizzaList);
         for(Pizza p : pizzaList){
-            orderItemList.add(new OrderItem(p,5,new Order(),20.00));
+            orderItemList.add(new OrderItem(p,5,new Order(),20.00, ItemSize.MEDIUM));
         }
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
