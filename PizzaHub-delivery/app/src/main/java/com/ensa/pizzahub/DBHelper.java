@@ -8,20 +8,24 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.ensa.pizzahub.model.ItemSize;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
+import com.ensa.pizzahub.model.State;
 import com.ensa.pizzahub.model.User;
 
 import java.sql.SQLOutput;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
     
     // Database Name
     private static final String DATABASE_NAME = "Userdata.db";
@@ -33,11 +37,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
-    private static final String COLUMN_USER_ORDER = "user_order";
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT," +COLUMN_USER_ORDER+" INTEGER, FOREIGN KEY("+COLUMN_USER_ORDER+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
+            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT)";
     // drop user table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
 
@@ -46,9 +49,11 @@ public class DBHelper extends SQLiteOpenHelper {
     // Order Table Columns names
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_ORDER_STATE = "order_state";
+    private static final String COLUMN_ORDER_USER_ID = "order_user_id";
+    private static final String COLUMN_ORDER_DATE = "order_date";
     // create table sql query
     private String CREATE_ORDER_TABLE = "create table " + TABLE_ORDER + "(" + COLUMN_ORDER_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_STATE + " integer)";
+            COLUMN_ORDER_STATE + " intege," +COLUMN_ORDER_DATE + " TEXT," +COLUMN_ORDER_USER_ID+" INTEGER, FOREIGN KEY("+COLUMN_ORDER_USER_ID+") REFERENCES "+TABLE_USER+"("+COLUMN_USER_ID+"))";
     // drop user table sql query
     private String DROP_ORDER_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER;
 
@@ -60,10 +65,12 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ORDER_ITEM_QUANTITY= "order_item_quantity";
     private static final String COLUMN_ORDER_ITEM_ORDER_ID= "order_item_order_id";
     private static final String COLUMN_ORDER_ITEM_PRICE = "order_item_price";
+    private static final String COLUMN_ORDER_ITEM_SIZE = "order_item_size";
+    private static final String COLUMN_ORDER_ITEM_PIZZA_ID = "order_item_pizza_id";
     // create table sql query
     private String CREATE_ORDER_ITEM_TABLE = "create table " + TABLE_ORDER_ITEM + "(" + COLUMN_ORDER_ITEM_ID + " integer primary key autoincrement," +
-            COLUMN_ORDER_ITEM_QUANTITY + " integer,"+COLUMN_ORDER_ITEM_PRICE+ " NUMBER," + COLUMN_ORDER_ITEM_ORDER_ID + " integer," +
-            " FOREIGN KEY("+COLUMN_ORDER_ITEM_ORDER_ID+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
+            COLUMN_ORDER_ITEM_QUANTITY + " integer,"+COLUMN_ORDER_ITEM_PRICE+ " NUMBER," +COLUMN_ORDER_ITEM_PIZZA_ID+ " integer," + COLUMN_ORDER_ITEM_ORDER_ID + " integer," +
+            COLUMN_ORDER_ITEM_SIZE + " integer, FOREIGN KEY("+COLUMN_ORDER_ITEM_ORDER_ID+") REFERENCES "+TABLE_ORDER+"("+COLUMN_ORDER_ID+"))";
     // drop user table sql query
     private String DROP_ORDER_ITEM_TABLE = "DROP TABLE IF EXISTS " + TABLE_ORDER_ITEM;
 
@@ -102,7 +109,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         System.out.println(CREATE_ORDER_TABLE);
-        db.execSQL(CREATE_ORDER_TABLE);
+        db.execSQL(CREATE_ORDER_TABLE); 
         System.out.println(CREATE_USER_TABLE);
         db.execSQL(CREATE_USER_TABLE);
 
@@ -138,7 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_USER_NAME, user.getName());
             values.put(COLUMN_USER_EMAIL, user.getEmail());
             values.put(COLUMN_USER_PASSWORD, user.getPassword());
-            values.put(COLUMN_USER_ORDER, user.getOrder().getId());
+            //values.put(COLUMN_USER_ORDER, user.getOrder().getId());
             // Inserting Row
             db.insert(TABLE_USER, null, values);
             db.close();
@@ -346,10 +353,12 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param password
      * @return true/false
      */
-    public boolean checkUser(String email, String password) {
+    public User checkUser(String email, String password) {
         // array of columns to fetch
         String[] columns = {
-                COLUMN_USER_ID
+                COLUMN_USER_ID,
+                COLUMN_USER_EMAIL,
+                COLUMN_USER_NAME
         };
         SQLiteDatabase db = this.getReadableDatabase();
         // selection criteria
@@ -371,11 +380,155 @@ public class DBHelper extends SQLiteOpenHelper {
                 null);                      //The sort order
         int cursorCount = cursor.getCount();
         cursor.close();
-        db.close();
         if (cursorCount > 0) {
-            return true;
+
+            User user = new User();
+            user.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_USER_ID)));
+            user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
+            user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
+            user = updateUserOrders(user);
+            return user;
         }
-        return false;
+        db.close();
+
+        return null;
+    }
+    public User updateUserOrders(User user){
+        List<Order> userOrders = getUserOrders(user);
+        for (Order order: userOrders) {
+            if(order.getState() == State.CREATED){
+                user.setOrder(order);
+                break;
+            }
+        }
+        if(userOrders.contains(user.getOrder())){
+            userOrders.remove(user.getOrder());
+        }
+        else{
+            Order order = new Order(State.CREATED,new ArrayList<OrderItem>(),user);
+            order.setId(addOrder(order).intValue());
+            user.setOrder(order);
+        }
+        user.setOrderHistory(userOrders);
+        return user;
+    }
+    public List<Order> getUserOrders(User user) {
+        String[] columns = {
+                COLUMN_ORDER_ID,
+                COLUMN_ORDER_STATE,
+                COLUMN_ORDER_DATE
+        };
+        List<Order> orderList = new ArrayList<Order>();
+        String selection = COLUMN_ORDER_USER_ID + " = ?";
+        String[] selectionArgs = {Integer.toString(user.getId())};
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ORDER, //Table to query
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order();
+                order.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_ID))));
+                order.setState(State.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_ORDER_STATE))]);
+                try{
+                    order.setDate(new Date(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_DATE))));
+                }
+                catch (Exception e){
+                    System.out.println("Unable to parse date");
+                }
+
+                List<OrderItem> items = getOrderItems(order);
+                order.setItems(items);
+                // Adding pizza record to list
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+    public List<OrderItem> getOrderItems(Order order) {
+        String[] columns = {
+                COLUMN_ORDER_ITEM_ID,
+                COLUMN_ORDER_ITEM_PRICE,
+                COLUMN_ORDER_ITEM_QUANTITY,
+                COLUMN_ORDER_ITEM_SIZE,
+                COLUMN_ORDER_ITEM_PIZZA_ID
+        };
+        List<OrderItem> itemList = new ArrayList<OrderItem>();
+        String selection = COLUMN_ORDER_ITEM_ORDER_ID + " = ?";
+        String[] selectionArgs = {Integer.toString(order.getId())};
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ORDER_ITEM, //Table to query
+                columns,    //columns to return
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            do {
+                OrderItem item = new OrderItem();
+                item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_ORDER_ITEM_ID))));
+                item.setOrder(order);
+                item.setQuantity(cursor.getInt(cursor.getColumnIndex(COLUMN_ORDER_ITEM_QUANTITY)));
+                item.setPrice(cursor.getDouble(cursor.getColumnIndex(COLUMN_ORDER_ITEM_PRICE)));
+                item.setSize(ItemSize.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_ORDER_ITEM_SIZE))]);
+                item.setPizza(getPizza(cursor.getInt(cursor.getColumnIndex(COLUMN_ORDER_ITEM_PIZZA_ID))));
+                // Adding pizza record to list
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return itemList;
+    }
+
+    private Pizza getPizza(int pizzaID) {
+        String[] columns = {
+                COLUMN_PIZZA_ID,
+                COLUMN_PIZZA_NAME,
+                COLUMN_PIZZA_DESCRIPTION,
+                COLUMN_PIZZA_PRICE_S,
+                COLUMN_PIZZA_PRICE_M,
+                COLUMN_PIZZA_PRICE_L,
+                COLUMN_PIZZA_DELIVERY_TIME,
+                COLUMN_PIZZA_IMAGE
+        };
+        String sortOrder =
+                COLUMN_PIZZA_NAME + " ASC";
+        Pizza pizza = new Pizza();
+        String selection = COLUMN_PIZZA_ID + " = ?";
+        String[] selectionArgs = {Integer.toString(pizzaID)};
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_PIZZA, //Table to query
+                columns,    //columns to return
+                null,        //columns for the WHERE clause
+                null,        //The values for the WHERE clause
+                null,       //group the rows
+                null,
+                sortOrder);
+        int cursorCount = cursor.getCount();
+
+        if (cursor.moveToNext()) {
+            pizza.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_ID))));
+            pizza.setName(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_NAME)));
+            pizza.setDescription(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_DESCRIPTION)));
+            pizza.setPrice_s(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_S)));
+            pizza.setPrice_m(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_M)));
+            pizza.setPrice_l(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_PRICE_L)));
+            pizza.setDeliveryTime(cursor.getDouble(cursor.getColumnIndex(COLUMN_PIZZA_DELIVERY_TIME)));
+            pizza.setImagePath(cursor.getString(cursor.getColumnIndex(COLUMN_PIZZA_IMAGE)));
+
+        }
+        cursor.close();
+        db.close();
+        return pizza;
     }
 
     /**
@@ -383,21 +536,34 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param order
      */
-    public void addOrder(Order order) {
+    public Long addOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_ORDER_USER_ID, order.getUser().getId());
+        values.put(COLUMN_ORDER_STATE, order.getState().ordinal());
         // Inserting Row
         Long id = db.insert(TABLE_ORDER, null, values);
         for (OrderItem item: order.getItems()) {
             ContentValues itemValues = new ContentValues();
             itemValues.put(COLUMN_ORDER_ITEM_ORDER_ID, id);
             itemValues.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
+            itemValues.put(COLUMN_ORDER_ITEM_SIZE, item.getSize().ordinal());
             // Inserting Row
             db.insert(TABLE_ORDER_ITEM, null, itemValues);
         }
         db.close();
+        return id;
     }
+    public void updateOrder(Order order){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ORDER_STATE,order.getState().ordinal());
+        values.put(COLUMN_ORDER_DATE,order.getDate().toString());
 
+        db.update(TABLE_ORDER, values, COLUMN_ORDER_ID + " = ?",
+                new String[]{String.valueOf(order.getId())});
+        db.close();
+    }
     /**
      * This method is to update an user order
      *
@@ -436,6 +602,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ORDER_ITEM_ORDER_ID, item.getOrder().getId());
         values.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
         values.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
+        values.put(COLUMN_ORDER_ITEM_SIZE, item.getSize().ordinal());
         // updating row
         db.update(TABLE_ORDER_ITEM, values, COLUMN_ORDER_ITEM_ID + " = ?",
                 new String[]{String.valueOf(item.getId())});
@@ -445,67 +612,67 @@ public class DBHelper extends SQLiteOpenHelper {
     public void setPizzas() {
         addPizza(new Pizza("4Fromages",
                 "Coulis, chevre, mozzarella, emmenthal, roquefort, creme fraiche, olives.",
-                12,
-                18,
-                25,
-                5,
+                32,
+                50,
+                70,
+                20,
                 "https://i.ibb.co/DzPTGC6/froma4.png"));
         addPizza(new Pizza("Regina" ,
                 "Coulis, chorizo, poivrons, fromage, olives.",
-                12,
-                18,
                 25,
-                5,
+                42,
+                50,
+                17,
                 "https://i.ibb.co/DLjHY42/regina.png"));
         addPizza(new Pizza("Chorizo" ,
                 "Coulis, jambon, champignons, fromage, olives.",
-                12,
-                18,
                 25,
-                5,
+                42,
+                50,
+                20,
                 "https://i.ibb.co/MCsjXHH/chorizo.png"));
         addPizza(new Pizza("Marguerita",
                 "Coulis, double fromages, olives.",
-                12,
                 18,
-                25,
-                5,
+                27,
+                40,
+                15,
                 "https://i.ibb.co/LZsJ2Jj/marguerita.png"));
         addPizza(new Pizza("Campagne",
                 "Coulis, double chevre, champignons, herbes de Provence, olives.",
-                12,
-                18,
-                25,
-                5,
+                30,
+                50,
+                70,
+                525,
                 "https://i.ibb.co/tM7JD3Y/campagne.png"));
         addPizza(new Pizza("Poulet"  ,
                 "Coulis, poulet, chevre, creme fraiche, fromage, olives.",
-                12,
-                18,
-                25,
-                5,
+                22,
+                35,
+                48,
+                17,
                 "https://i.ibb.co/MfwpcXN/poulet.png"));
         addPizza(new Pizza("3Fromages"   ,
                 "Coulis, poulet, chevre, creme fraiche, fromage, olives.",
-                12,
-                18,
                 25,
-                5,
+                45,
+                60,
+                20,
                 "https://i.ibb.co/MfwpcXN/poulet.png"));
         addPizza(new Pizza("Chevre",
                 "Coulis, chevre, creme fraiche, oeuf, fromage, olives.",
-                12,
-                18,
-                25,
-                5,
+                35,
+                60,
+                90,
+                30,
                 "https://i.ibb.co/bWvRRV3/chevre.png"));
         addPizza(new Pizza("Champignons" ,
                 "Coulis, champignons, fromage, olives.",
-                12,
-                18,
+                35,
+                60,
+                90,
                 25,
-                5,
                 "https://i.ibb.co/Xx0sRcy/champi.png"));
-        System.out.println(getAllPizza().toString());
+        //System.out.println(getAllPizza().toString());
     }
 }

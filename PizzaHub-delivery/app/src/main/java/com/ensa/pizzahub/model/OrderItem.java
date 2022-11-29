@@ -6,22 +6,42 @@ public class OrderItem {
     private int quantity;
     private Order order;
     private double price;
-    public OrderItem() {
-    }
+    private ItemSize size;
 
-    public OrderItem(Pizza pizza, int quantity, Order order, double price) {
+    public OrderItem(Pizza pizza, int quantity, Order order, double price, ItemSize size) {
         this.pizza = pizza;
         this.quantity = quantity;
         this.order = order;
         this.price = price;
+        this.size = size;
     }
 
-    public OrderItem(int id, Pizza pizza, int quantity, Order order, double price) {
+    public OrderItem(int id, Pizza pizza, int quantity, Order order, double price, ItemSize size) {
         this.id = id;
         this.pizza = pizza;
         this.quantity = quantity;
         this.order = order;
         this.price = price;
+        this.size = size;
+    }
+
+    public Pizza getPizza() {
+        return pizza;
+    }
+
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
+
+    public OrderItem() {
+    }
+
+    public ItemSize getSize() {
+        return size;
+    }
+
+    public void setSize(ItemSize size) {
+        this.size = size;
     }
 
     public double getPrice() {
@@ -48,13 +68,6 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Pizza getPizza() {
-        return pizza;
-    }
-
-    public void setPizza(Pizza pizza) {
-        this.pizza = pizza;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -70,8 +83,8 @@ public class OrderItem {
                 "id=" + id +
                 ", pizza=" + pizza +
                 ", quantity=" + quantity +
-                ", order=" + order +
                 ", price=" + price +
+                ", size=" + size +
                 '}';
     }
 }
