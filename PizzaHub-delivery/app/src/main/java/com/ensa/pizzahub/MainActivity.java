@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView;
+    RecyclerView recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView,historyRecyclerView;
     private final AppCompatActivity activity = MainActivity.this;
     CartAdapter cartAdapter;
     HistoryAdapter historyAdapter;
     RecommendedAdapter recommendedAdapter;
     AllMenuAdapter allMenuAdapter;
-    Button cartButton;
+    Button cartButton,historyButton;
     List<Pizza> pizzaList;
     List<OrderItem> orderItemList = new ArrayList<OrderItem>();
     private User user;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         cartButton = findViewById(R.id.cartButton);
+        historyButton = findViewById(R.id.historyButton);
 
         pizzaList = dbHelper.getAllPizza();
         System.out.println("=================");
@@ -58,9 +59,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setContentView(R.layout.my_cart);
-                //TextView totalPrice = view.findViewById(R.id.totalPrice);
-                //totalPrice.setText(String.format("%.2f",calculatTotalPrice(orderItemList)));
+                TextView totalPrice = findViewById(R.id.totalPrice);
+                Button purshase = findViewById(R.id.purchase2);
+                Double price = calculatTotalPrice(orderItemList);
+                totalPrice.setText("Total : "+String.format("%.2f",price)+" MAD");
                 getMyCart(orderItemList);
+                purshase.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Order order = new Order(cartAdapter.getOrderItemListList());
+                    }
+                });
+            }
+        });
+
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.history);
+                getMyHistory(orderItemList);
             }
         });
         //Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
@@ -95,13 +112,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void  getMyCart(List<OrderItem> myCartList){
 
+        TextView totalPrice = findViewById(R.id.totalPrice);
         cartRecyclerView = findViewById(R.id.orderView);
-        cartAdapter = new CartAdapter(this, myCartList);
+        cartAdapter = new CartAdapter(this, myCartList,totalPrice);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartRecyclerView.setLayoutManager(layoutManager);
         cartRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
+    }
 
+    private void  getMyHistory(List<OrderItem> myCartList){
+
+        historyRecyclerView = findViewById(R.id.historyView);
+        historyAdapter = new HistoryAdapter(this, myCartList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        historyRecyclerView.setLayoutManager(layoutManager);
+        historyRecyclerView.setAdapter(historyAdapter);
+        historyAdapter.notifyDataSetChanged();
     }
 
 }
