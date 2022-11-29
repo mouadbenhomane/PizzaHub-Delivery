@@ -1,15 +1,14 @@
 package com.ensa.pizzahub;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ensa.pizzahub.adapter.AllMenuAdapter;
 import com.ensa.pizzahub.adapter.CartAdapter;
@@ -23,9 +22,9 @@ import com.ensa.pizzahub.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
     RecyclerView recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView,historyRecyclerView;
-    private final AppCompatActivity activity = MainActivity.this;
+    private final AppCompatActivity activity = HistoryActivity.this;
     CartAdapter cartAdapter;
     HistoryAdapter historyAdapter;
     RecommendedAdapter recommendedAdapter;
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(activity);
         user=new User();
         dbHelper.setPizzas();
-        context =this;
 
         setContentView(R.layout.activity_main);
         cartButton = findViewById(R.id.cartButton);
@@ -57,9 +55,18 @@ public class MainActivity extends AppCompatActivity {
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, CartActivity.class);
-                i.putExtra("user", user);
-                context.startActivity(i);
+                setContentView(R.layout.my_cart);
+                TextView totalPrice = findViewById(R.id.totalPrice);
+                Button purshase = findViewById(R.id.purchase2);
+                Double price = calculatTotalPrice(orderItemList);
+                totalPrice.setText("Total : "+String.format("%.2f",price)+" MAD");
+                getMyCart(orderItemList);
+                purshase.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Order order = new Order(cartAdapter.getOrderItemListList());
+                    }
+                });
             }
         });
 
