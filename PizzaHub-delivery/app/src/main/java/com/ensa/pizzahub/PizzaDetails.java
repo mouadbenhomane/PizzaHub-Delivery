@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
+import com.ensa.pizzahub.model.User;
 
 public class PizzaDetails extends AppCompatActivity {
 
@@ -28,6 +29,8 @@ public class PizzaDetails extends AppCompatActivity {
     String name, priceS, priceM, priceL, imageUrl,desc;
     Double currentPrice;
     Pizza pizza;
+    User user;
+    DBHelper dbHelper;
 
 
     @SuppressLint({"MissingInflatedId", "DefaultLocale"})
@@ -37,6 +40,7 @@ public class PizzaDetails extends AppCompatActivity {
         setContentView(R.layout.pizza_details);
 
         pizza = getIntent().getParcelableExtra("pizza");
+        user = getIntent().getParcelableExtra("user");
 
         name = pizza.getName();
         priceS = String.format("%.2f",pizza.getPrice_s());
@@ -85,7 +89,8 @@ public class PizzaDetails extends AppCompatActivity {
         addToCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),new Order(),Double.parseDouble(itemPrice.getText().toString()));
+                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(itemPrice.getText().toString()));
+                dbHelper.addOrderItem(orderItem);
             }
         });
 
