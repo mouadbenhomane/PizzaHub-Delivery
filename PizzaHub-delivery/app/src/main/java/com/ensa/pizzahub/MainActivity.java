@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_main);
 
         List<Pizza> pizzaList = dbHelper.getAllPizza();
         System.out.println("=================");
