@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -28,16 +28,17 @@
     <ScrollView
         android:id="@+id/scroller"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/InnerRelativeLayout"
         android:layout_below="@+id/headerpanel"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="14dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orderView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp" />
 
     </ScrollView>
 
@@ -68,7 +69,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="@drawable/add_to_cart_bg"
             android:fontFamily="@font/open_sans_bold"

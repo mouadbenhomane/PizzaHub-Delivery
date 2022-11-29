@@ -26,10 +26,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
     private Context context;
     private List<OrderItem> orderItemListList;
     public int i =0;
+    private TextView totalPrice;
 
-    public CartAdapter(Context context, List<OrderItem> orderItemListList) {
+    public List<OrderItem> getOrderItemListList() {
+        return orderItemListList;
+    }
+
+    public void setOrderItemListList(List<OrderItem> orderItemListList) {
+        this.orderItemListList = orderItemListList;
+    }
+
+    public CartAdapter(Context context, List<OrderItem> orderItemListList,TextView totalPrice) {
         this.context = context;
         this.orderItemListList = orderItemListList;
+        this.totalPrice = totalPrice;
     }
 
     @NonNull
@@ -55,13 +65,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
             @Override
             public void onClick(View view) {
                 //delete item from list and from DB
+                Double currentTotal = calculatTotalPrice(orderItemListList);
+                Double toSubstract = orderItemListList.get(position).getPrice();
+                totalPrice.setText("Total : "+String.format("%.2f",currentTotal-toSubstract)+" MAD");
                 orderItemListList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, orderItemListList.size());
                 holder.itemView.setVisibility(View.GONE);
+
+
             }
         });
 
+    }
+    private Double calculatTotalPrice(List<OrderItem> list){
+        Double p=0.0;
+        for (OrderItem o : list){
+            p+=o.getPrice();
+        }
+        return p;
     }
 
     @Override
