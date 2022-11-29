@@ -17,6 +17,7 @@ import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.Recommended;
+import com.ensa.pizzahub.model.User;
 
 import java.util.List;
 
@@ -24,10 +25,12 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
 
     private Context context;
     private List<Pizza> recommendedList;
+    private User user;
 
-    public RecommendedAdapter(Context context, List<Pizza> recommendedList) {
+    public RecommendedAdapter(Context context, List<Pizza> recommendedList, User user) {
         this.context = context;
         this.recommendedList = recommendedList;
+        this.user = user;
     }
 
     @NonNull
@@ -50,6 +53,7 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
                 i.putExtra("pizza", recommendedList.get(position));
+                i.putExtra("user", recommendedList.get(position));
                 context.startActivity(i);
             }
         });
