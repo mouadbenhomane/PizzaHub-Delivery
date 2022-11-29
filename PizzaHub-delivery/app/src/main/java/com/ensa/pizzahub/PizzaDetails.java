@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.model.ItemSize;
@@ -32,16 +33,18 @@ public class PizzaDetails extends AppCompatActivity {
     Pizza pizza;
     User user;
     DBHelper dbHelper;
-
+    ItemSize itemSize;
 
     @SuppressLint({"MissingInflatedId", "DefaultLocale"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pizza_details);
+        dbHelper =new DBHelper(this);
 
         pizza = getIntent().getParcelableExtra("pizza");
         user = getIntent().getParcelableExtra("user");
+        user = dbHelper.updateUserOrders(user);
 
         name = pizza.getName();
         priceS = String.format("%.2f",pizza.getPrice_s());
@@ -67,6 +70,7 @@ public class PizzaDetails extends AppCompatActivity {
         currentPrice=Double.parseDouble(priceM);
         itemDesc.setText(desc);
         pizzaCount.setText("1");
+        itemSize = ItemSize.MEDIUM;
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +102,10 @@ public class PizzaDetails extends AppCompatActivity {
         addToCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(itemPrice.getText().toString()), ItemSize.MEDIUM);
+                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(itemPrice.getText().toString()), itemSize);
                 dbHelper.addOrderItem(orderItem);
+                Toast t = Toast.makeText(PizzaDetails.this, "Added Successfully", Toast.LENGTH_SHORT);
+                t.show();
             }
         });
 
@@ -110,14 +116,17 @@ public class PizzaDetails extends AppCompatActivity {
                 int count = Integer.parseInt(pizzaCount.getText().toString());
                 switch (i){
                     case R.id.small:
+                        itemSize = ItemSize.SMALL;
                         currentPrice=Double.parseDouble(priceS);
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;
                     case R.id.medium:
+                        itemSize = ItemSize.MEDIUM;
                         currentPrice=Double.parseDouble(priceM);
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;
                     case R.id.large:
+                        itemSize = ItemSize.LARGE;
                         currentPrice=Double.parseDouble(priceL);
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;

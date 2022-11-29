@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +20,11 @@ import com.ensa.pizzahub.adapter.RecommendedAdapter;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
+import com.ensa.pizzahub.model.State;
 import com.ensa.pizzahub.model.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
@@ -39,9 +42,8 @@ public class CartActivity extends AppCompatActivity {
         dbHelper = new DBHelper(activity);
         pizzaList = dbHelper.getAllPizza();
         user = getIntent().getParcelableExtra("user");
-        for(Pizza p : pizzaList){
-            orderItemList.add(new OrderItem(p,5,new Order(),20.00,MEDIUM));
-        }
+        user = dbHelper.updateUserOrders(user);
+        orderItemList = user.getOrder().getItems();
         TextView totalPrice = findViewById(R.id.totalPrice);
         Button purshase = findViewById(R.id.purchase2);
         Double price = calculatTotalPrice(orderItemList);
@@ -50,7 +52,12 @@ public class CartActivity extends AppCompatActivity {
         purshase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order order = new Order(cartAdapter.getOrderItemListList());
+                user.getOrder().setState(State.CONFIRMED);
+                user.getOrder().setDate(new Date());
+                dbHelper.updateOrder(user.getOrder());
+                user = dbHelper.updateUserOrders(user);
+                Toast t = Toast.makeText(CartActivity.this, "Operation Successfully", Toast.LENGTH_SHORT);
+                t.show();
             }
         });
     }
@@ -65,7 +72,7 @@ public class CartActivity extends AppCompatActivity {
 
         TextView totalPrice = findViewById(R.id.totalPrice);
         cartRecyclerView = findViewById(R.id.orderView);
-        cartAdapter = new CartAdapter(this, myCartList,totalPrice);
+        cartAdapter = new CartAdapter(this, myCartList,totalPrice,user);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         cartRecyclerView.setLayoutManager(layoutManager);
         cartRecyclerView.setAdapter(cartAdapter);

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(activity);
-        user=new User();
+        //user = getIntent().getParcelableExtra("user");
         dbHelper.setPizzas();
         context =this;
 
@@ -68,11 +68,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.updateOrder(user.getOrder());
         user = dbHelper.updateUserOrders(user);
         System.out.println(user);*/
-        System.out.println(pizzaList);
-        System.out.println("=================");
-        getRecommendedData(pizzaList);
         getAllMenu(pizzaList);
-
+        getRecommendedData(pizzaList);
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,16 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
-    }
-    public void onBackPressed() {
-        System.out.println("=============Back==============");
-    }
-    private Double calculatTotalPrice(List<OrderItem> list){
-        Double p=0.0;
-        for (OrderItem o : list){
-            p+=o.getPrice();
-        }
-        return p;
     }
     private void  getRecommendedData(List<Pizza> recommendedList){
 
@@ -121,27 +108,6 @@ public class MainActivity extends AppCompatActivity {
         allMenuRecyclerView.setAdapter(allMenuAdapter);
         allMenuAdapter.notifyDataSetChanged();
 
-    }
-
-    private void  getMyCart(List<OrderItem> myCartList){
-
-        TextView totalPrice = findViewById(R.id.totalPrice);
-        cartRecyclerView = findViewById(R.id.orderView);
-        cartAdapter = new CartAdapter(this, myCartList,totalPrice);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        cartRecyclerView.setLayoutManager(layoutManager);
-        cartRecyclerView.setAdapter(cartAdapter);
-        cartAdapter.notifyDataSetChanged();
-    }
-
-    private void  getMyHistory(List<OrderItem> myCartList){
-
-        historyRecyclerView = findViewById(R.id.historyView);
-        historyAdapter = new HistoryAdapter(this, myCartList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        historyRecyclerView.setLayoutManager(layoutManager);
-        historyRecyclerView.setAdapter(historyAdapter);
-        historyAdapter.notifyDataSetChanged();
     }
 
 }

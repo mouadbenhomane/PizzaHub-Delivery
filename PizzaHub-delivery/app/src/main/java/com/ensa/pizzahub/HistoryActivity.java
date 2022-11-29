@@ -2,19 +2,12 @@ package com.ensa.pizzahub;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ensa.pizzahub.adapter.AllMenuAdapter;
-import com.ensa.pizzahub.adapter.CartAdapter;
 import com.ensa.pizzahub.adapter.HistoryAdapter;
-import com.ensa.pizzahub.adapter.RecommendedAdapter;
-import com.ensa.pizzahub.model.ItemSize;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
@@ -28,7 +21,7 @@ public class HistoryActivity extends AppCompatActivity {
     private final AppCompatActivity activity = HistoryActivity.this;
     HistoryAdapter historyAdapter;
     List<Pizza> pizzaList;
-    List<OrderItem> orderItemList = new ArrayList<OrderItem>();
+    List<Order> orderHistoryList = new ArrayList<Order>();
     private User user;
     private DBHelper dbHelper;
     Context context;
@@ -36,17 +29,26 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
-        dbHelper = new DBHelper(activity);
-        pizzaList =dbHelper.getAllPizza();
         context =this;
+        dbHelper = new DBHelper(activity);
+        user = getIntent().getParcelableExtra("user");
+        user = dbHelper.updateUserOrders(user);
+        orderHistoryList =user.getOrderHistory();
 
-        for(Pizza p : pizzaList){
-            orderItemList.add(new OrderItem(p,5,new Order(),20.00, ItemSize.MEDIUM));
-        }
-        getMyHistory(orderItemList);
+        getMyHistory(orderListToOrderItemList(orderHistoryList));
     }
 
+    private List<OrderItem> orderListToOrderItemList(List<Order> myOrderList){
+        List<OrderItem> list = new ArrayList<OrderItem>();
+        for (Order order : myOrderList){
+            for(OrderItem orderItem : order.getItems()){
+                orderItem.setDate(order.getDate());
+                list.add(orderItem);
+            }
+        }
 
+        return list;
+    }
     private void  getMyHistory(List<OrderItem> myCartList){
 
         historyRecyclerView = findViewById(R.id.historyView);

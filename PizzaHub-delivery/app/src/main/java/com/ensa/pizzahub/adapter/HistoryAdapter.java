@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
 import com.ensa.pizzahub.model.OrderItem;
@@ -39,18 +40,42 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         return new HistoryViewHolder(view);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        /*
-        holder.name.setText(popularList.get(position).getName());
-        holder.desc.setText(popularList.get(position).getName());
-        holder.price.setText(popularList.get(position).getName());
-        holder.size.setText(popularList.get(position).getName());
-        holder.quantity.setText(popularList.get(position).getName());
-        holder.state.setText(popularList.get(position).getName());
+        String pizzaSize ="";
+        switch(historyList.get(position).getSize()){
+            case SMALL:
+                pizzaSize = "Small";
+                break;
+            case MEDIUM:
+                pizzaSize = "Medium";
+                break;
+            case LARGE:
+                pizzaSize = "Large";
+                break;
+        }
+        String orderItemState ="";
+        switch(historyList.get(position).getOrder().getState()){
+            case CONFIRMED:
+                pizzaSize = "Confirmed";
+                break;
+            case CREATED:
+                pizzaSize = "Created";
+                break;
+            case DELIVERED:
+                pizzaSize = "Delivered";
+                break;
+        }
+        holder.name.setText(historyList.get(position).getPizza().getName());
+        holder.desc.setText(historyList.get(position).getPizza().getDescription());
+        holder.price.setText(String.format("%.2f",historyList.get(position).getPrice()));
+        holder.size.setText(pizzaSize);
+        holder.quantity.setText(historyList.get(position).getQuantity()+" x");
+        holder.state.setText(orderItemState);
 
-        Glide.with(context).load(popularList.get(position).getImageUrl()).into(holder.itemImage);
-        */
+        Glide.with(context).load(historyList.get(position).getPizza().getImagePath()).into(holder.itemImage);
+
 
     }
 

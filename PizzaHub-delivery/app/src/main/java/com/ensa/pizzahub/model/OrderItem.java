@@ -1,5 +1,7 @@
 package com.ensa.pizzahub.model;
 
+import java.util.Date;
+
 public class OrderItem {
     private int id;
     private Pizza pizza;
@@ -7,6 +9,15 @@ public class OrderItem {
     private Order order;
     private double price;
     private ItemSize size;
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public OrderItem(Pizza pizza, int quantity, Order order, double price, ItemSize size) {
         this.pizza = pizza;
