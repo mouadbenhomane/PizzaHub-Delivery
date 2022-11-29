@@ -379,11 +379,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,                       //filter by row groups
                 null);                      //The sort order
         int cursorCount = cursor.getCount();
-        cursor.close();
-        if (cursorCount > 0) {
+        if (cursor.moveToNext()) {
 
             User user = new User();
-            user.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_USER_ID)));
+            user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_USER_ID))));
             user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
             user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
             user = updateUserOrders(user);
