@@ -49,14 +49,7 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, PizzaDetails.class);
-                i.putExtra("name", recommendedList.get(position).getName());
-                i.putExtra("description", recommendedList.get(position).getDescription());
-                i.putExtra("priceS", String.format("%.2f",recommendedList.get(position).getPrice_s()));
-                i.putExtra("priceM", String.format("%.2f",recommendedList.get(position).getPrice_m()));
-                i.putExtra("priceL", String.format("%.2f",recommendedList.get(position).getPrice_l()));
-                i.putExtra("image", recommendedList.get(position).getImagePath());
-                i.putExtra("time", recommendedList.get(position).getDeliveryTime());
-
+                i.putExtra("pizza", recommendedList.get(position));
                 context.startActivity(i);
             }
         });

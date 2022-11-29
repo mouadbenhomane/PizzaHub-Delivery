@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensa.pizzahub.adapter.AllMenuAdapter;
 import com.ensa.pizzahub.model.Allmenu;
+import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.User;
 
 import java.util.regex.Matcher;
@@ -65,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                     confirmPassword.setError("password doesn't match!");
                 }
                 else{
-                    User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString());
+                    User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString(),new Order());
                     try {
                         dbHelper.addUser(user);
                         Toast t = Toast.makeText(RegisterActivity.this, "Success!", Toast.LENGTH_SHORT);

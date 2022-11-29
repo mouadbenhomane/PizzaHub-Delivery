@@ -1,6 +1,9 @@
 package com.ensa.pizzahub.model;
 
-public class Pizza {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Pizza implements Parcelable {
     private int id;
     private String description;
     private String name;
@@ -33,6 +36,29 @@ public class Pizza {
         this.deliveryTime = deliveryTime;
         this.imagePath = imagePath;
     }
+
+    protected Pizza(Parcel in) {
+        id = in.readInt();
+        description = in.readString();
+        name = in.readString();
+        price_s = in.readDouble();
+        price_m = in.readDouble();
+        price_l = in.readDouble();
+        deliveryTime = in.readDouble();
+        imagePath = in.readString();
+    }
+
+    public static final Creator<Pizza> CREATOR = new Creator<Pizza>() {
+        @Override
+        public Pizza createFromParcel(Parcel in) {
+            return new Pizza(in);
+        }
+
+        @Override
+        public Pizza[] newArray(int size) {
+            return new Pizza[size];
+        }
+    };
 
     public double getPrice_s() {
         return price_s;
@@ -110,6 +136,23 @@ public class Pizza {
                 ", deliveryTime=" + deliveryTime +
                 ", imagePath='" + imagePath + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(description);
+        parcel.writeString(name);
+        parcel.writeDouble(price_s);
+        parcel.writeDouble(price_m);
+        parcel.writeDouble(price_l);
+        parcel.writeDouble(deliveryTime);
+        parcel.writeString(imagePath);
     }
 }
 
