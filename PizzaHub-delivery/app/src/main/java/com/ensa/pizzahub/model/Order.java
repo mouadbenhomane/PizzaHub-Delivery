@@ -17,6 +17,9 @@ public class Order {
         this.items = items;
         this.user = user;
     }
+    public Order(List<OrderItem> items) {
+        this.items = items;
+    }
 
     public Order(int id, State state, List<OrderItem> items, User user) {
         this.id = id;

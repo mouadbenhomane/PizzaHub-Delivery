@@ -5,9 +5,11 @@ import static android.text.TextUtils.isEmpty;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,11 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button register;
+    CheckBox saveLoginCheckBox;
+    SharedPreferences loginPreferences;
+    SharedPreferences.Editor loginPrefsEditor;
+    Boolean saveLogin;
+
 
     private final AppCompatActivity activity = LoginActivity.this;
     DBHelper dbHelper= new DBHelper(activity);
@@ -29,6 +36,19 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.inputEmail);
         password = findViewById(R.id.inputPassword);
         register = findViewById(R.id.btnlogin);
+
+        saveLoginCheckBox = (CheckBox)findViewById(R.id.checkBox);
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            email.setText(loginPreferences.getString("email", ""));
+            password.setText(loginPreferences.getString("password", ""));
+            saveLoginCheckBox.setChecked(true);
+            if(dbHelper.checkUser(email.getText().toString(),password.getText().toString())){
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        }
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +68,17 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 else{
-                    if(dbHelper.checkUser(email.getText().toString(),password.getText().toString()) != null){
+                    if (saveLoginCheckBox.isChecked()) {
+                        loginPrefsEditor.putBoolean("saveLogin", true);
+                        loginPrefsEditor.putString("email", email.getText().toString());
+                        loginPrefsEditor.putString("password", password.getText().toString());
+                        loginPrefsEditor.commit();
+                    } else {
+                        loginPrefsEditor.clear();
+                        loginPrefsEditor.commit();
+                    }
+                    if(dbHelper.checkUser(email.getText().toString(),password.getText().toString())){
+
                         Toast t = Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT);
                         t.show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
