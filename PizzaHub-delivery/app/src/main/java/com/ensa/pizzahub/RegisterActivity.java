@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                     confirmPassword.setError("password doesn't match!");
                 }
                 else{
-                    User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString(),new Order());
+                    User user= new User( username.getText().toString(),email.getText().toString(),password.getText().toString());
                     try {
                         dbHelper.addUser(user);
                         Toast t = Toast.makeText(RegisterActivity.this, "Success!", Toast.LENGTH_SHORT);

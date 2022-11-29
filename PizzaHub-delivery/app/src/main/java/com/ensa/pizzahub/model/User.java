@@ -2,29 +2,30 @@ package com.ensa.pizzahub.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.List;
 
 public class User implements Parcelable {
+
     private int id;
     private String name;
     private String email;
     private String password;
     private Order order;
+    private List<Order> orderHistory;
     public User() {
     }
 
-    public User(int id, String name, String email, String password, Order order) {
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(int id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.order = order;
-    }
-
-    public User(String name, String email, String password, Order order) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.order = order;
     }
 
     protected User(Parcel in) {
@@ -54,6 +55,14 @@ public class User implements Parcelable {
         this.order = order;
     }
 
+    public List<Order> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(List<Order> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
+
     public int getId() {
         return id;
     }
@@ -78,17 +87,6 @@ public class User implements Parcelable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -100,5 +98,17 @@ public class User implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(email);
         parcel.writeString(password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", order=" + order +
+                ", orderHistory=" + orderHistory +
+                '}';
     }
 }

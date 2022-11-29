@@ -1,27 +1,47 @@
 package com.ensa.pizzahub.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class Order {
     private int id;
     private State state;
     private List<OrderItem> items;
-
+    private User user;
+    private Date date;
     public Order() {
     }
 
-    public Order(State state, List<OrderItem> items) {
+    public Order(State state, List<OrderItem> items, User user) {
         this.state = state;
         this.items = items;
+        this.user = user;
     }
     public Order(List<OrderItem> items) {
         this.items = items;
     }
 
-    public Order(int id, State state, List<OrderItem> items) {
+    public Order(int id, State state, List<OrderItem> items, User user) {
         this.id = id;
         this.state = state;
         this.items = items;
+        this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -54,13 +74,9 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", state=" + state +
-                ", items=" + items.toString() +
+                ", items=" + items +
+                ", date=" + date +
                 '}';
     }
 }
 
-enum State {
-    CONFIRMED,
-    ON_THE_WAY,
-    DELIVERED
-}

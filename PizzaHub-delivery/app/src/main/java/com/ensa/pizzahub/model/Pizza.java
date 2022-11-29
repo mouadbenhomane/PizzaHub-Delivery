@@ -156,8 +156,3 @@ public class Pizza implements Parcelable {
     }
 }
 
-enum ItemSize{
-    SMALL,
-    MEDIUM,
-    LARGE
-}
