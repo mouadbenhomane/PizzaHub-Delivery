@@ -25,7 +25,7 @@ public class PizzaDetails extends AppCompatActivity {
     ImageView imageView;
     TextView itemName, itemPrice,itemDesc,pizzaCount;
     RadioGroup radioGroup;
-    Button plus,minus,addToCard;
+    Button plus,minus,addToCard,back;
     String name, priceS, priceM, priceL, imageUrl,desc;
     Double currentPrice;
     Pizza pizza;
@@ -58,6 +58,7 @@ public class PizzaDetails extends AppCompatActivity {
         plus = findViewById(R.id.addPizza);
         minus = findViewById(R.id.minusPizza);
         addToCard = findViewById(R.id.addToCard);
+        back = findViewById(R.id.back);
 
         Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
         itemName.setText(pizza.getName());
@@ -65,6 +66,13 @@ public class PizzaDetails extends AppCompatActivity {
         currentPrice=Double.parseDouble(priceM);
         itemDesc.setText(desc);
         pizzaCount.setText("1");
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
