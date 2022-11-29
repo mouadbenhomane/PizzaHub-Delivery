@@ -1,15 +1,14 @@
 package com.ensa.pizzahub;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ensa.pizzahub.adapter.AllMenuAdapter;
 import com.ensa.pizzahub.adapter.CartAdapter;
@@ -19,16 +18,14 @@ import com.ensa.pizzahub.model.ItemSize;
 import com.ensa.pizzahub.model.Order;
 import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
-import com.ensa.pizzahub.model.State;
 import com.ensa.pizzahub.model.User;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
     RecyclerView recommendedRecyclerView, allMenuRecyclerView,cartRecyclerView,historyRecyclerView;
-    private final AppCompatActivity activity = MainActivity.this;
+    private final AppCompatActivity activity = HistoryActivity.this;
     CartAdapter cartAdapter;
     HistoryAdapter historyAdapter;
     RecommendedAdapter recommendedAdapter;
@@ -45,40 +42,32 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(activity);
         user=new User();
         dbHelper.setPizzas();
-        context =this;
 
         setContentView(R.layout.activity_main);
         cartButton = findViewById(R.id.cartButton);
         historyButton = findViewById(R.id.historyButton);
 
         pizzaList = dbHelper.getAllPizza();
-        System.out.println("=================");
-        System.out.println(dbHelper.getAllUser().toString());
-        User user = new User("hamza","hamza@email.com","hamza123");
-        try{
-            dbHelper.addUser(user);
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        user = dbHelper.updateUserOrders(user);
-        //OrderItem item = new OrderItem(pizzaList.get(0),3,user.getOrder(),23.5, ItemSize.LARGE);
-        user.getOrder().setState(State.CONFIRMED);
-        user.getOrder().setDate(new Date());
-        dbHelper.updateOrder(user.getOrder());
-        user = dbHelper.updateUserOrders(user);
-        System.out.println(user);
-        System.out.println(pizzaList);
-        System.out.println("=================");
         getRecommendedData(pizzaList);
         getAllMenu(pizzaList);
-
+        for(Pizza p : pizzaList){
+            orderItemList.add(new OrderItem(p,5,new Order(),20.00, ItemSize.MEDIUM));
+        }
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, CartActivity.class);
-                i.putExtra("user", user);
-                context.startActivity(i);
+                setContentView(R.layout.my_cart);
+                TextView totalPrice = findViewById(R.id.totalPrice);
+                Button purshase = findViewById(R.id.purchase2);
+                Double price = calculatTotalPrice(orderItemList);
+                totalPrice.setText("Total : "+String.format("%.2f",price)+" MAD");
+                getMyCart(orderItemList);
+                purshase.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Order order = new Order(cartAdapter.getOrderItemListList());
+                    }
+                });
             }
         });
 
