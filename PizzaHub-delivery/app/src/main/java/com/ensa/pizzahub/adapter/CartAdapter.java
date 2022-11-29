@@ -27,6 +27,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
     private List<OrderItem> orderItemListList;
     public int i =0;
 
+    public List<OrderItem> getOrderItemListList() {
+        return orderItemListList;
+    }
+
+    public void setOrderItemListList(List<OrderItem> orderItemListList) {
+        this.orderItemListList = orderItemListList;
+    }
+
     public CartAdapter(Context context, List<OrderItem> orderItemListList) {
         this.context = context;
         this.orderItemListList = orderItemListList;

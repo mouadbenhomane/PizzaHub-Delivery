@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pizzaName" />
 
     <TextView
-        android:id="@+id/desc2"
+        android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -71,7 +71,7 @@
         app:layout_constraintVertical_bias="0.666" />
 
     <TextView
-        android:id="@+id/desc3"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
