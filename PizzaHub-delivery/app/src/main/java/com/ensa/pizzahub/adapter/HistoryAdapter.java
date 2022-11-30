@@ -43,36 +43,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        String pizzaSize ="";
-        switch(historyList.get(position).getSize()){
-            case SMALL:
-                pizzaSize = "Small";
-                break;
-            case MEDIUM:
-                pizzaSize = "Medium";
-                break;
-            case LARGE:
-                pizzaSize = "Large";
-                break;
-        }
-        String orderItemState ="";
-        switch(historyList.get(position).getOrder().getState()){
-            case CONFIRMED:
-                pizzaSize = "Confirmed";
-                break;
-            case CREATED:
-                pizzaSize = "Created";
-                break;
-            case DELIVERED:
-                pizzaSize = "Delivered";
-                break;
-        }
         holder.name.setText(historyList.get(position).getPizza().getName());
         holder.desc.setText(historyList.get(position).getPizza().getDescription());
         holder.price.setText(String.format("%.2f",historyList.get(position).getPrice()));
-        holder.size.setText(pizzaSize);
+        holder.size.setText(historyList.get(position).getSize().toString());
         holder.quantity.setText(historyList.get(position).getQuantity()+" x");
-        holder.state.setText(orderItemState);
+        holder.state.setText(historyList.get(position).getOrder().getState().toString());
 
         Glide.with(context).load(historyList.get(position).getPizza().getImagePath()).into(holder.itemImage);
 

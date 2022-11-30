@@ -585,6 +585,7 @@ public class DBHelper extends SQLiteOpenHelper {
         itemValues.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
         itemValues.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
         itemValues.put(COLUMN_ORDER_ITEM_PIZZA_ID, item.getPizza().getId());
+        itemValues.put(COLUMN_ORDER_ITEM_SIZE, item.getSize().ordinal());
         // Inserting Row
         db.insert(TABLE_ORDER_ITEM, null, itemValues);
         db.close();
@@ -593,7 +594,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteOrderItem(OrderItem item){
         SQLiteDatabase db = this.getWritableDatabase();
         // delete user record by id
-        db.delete(TABLE_ORDER_ITEM, COLUMN_ORDER_ID + " = ?",
+        db.delete(TABLE_ORDER_ITEM, COLUMN_ORDER_ITEM_ID + " = ?",
                 new String[]{String.valueOf(item.getId())});
         db.close();
     }

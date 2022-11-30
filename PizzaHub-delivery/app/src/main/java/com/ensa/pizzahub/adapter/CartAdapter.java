@@ -54,21 +54,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        String pizzaSize ="";
-        switch(orderItemList.get(position).getSize()){
-            case SMALL:
-                pizzaSize = "Small";
-                break;
-            case MEDIUM:
-                pizzaSize = "Medium";
-                break;
-            case LARGE:
-                pizzaSize = "Large";
-                break;
-        }
         holder.name.setText(orderItemList.get(position).getPizza().getName());
         holder.quantity.setText("x "+ orderItemList.get(position).getQuantity());
-        holder.size.setText(pizzaSize);
+        holder.size.setText(orderItemList.get(position).getSize().toString());
         holder.price.setText(String.format("%.2f", orderItemList.get(position).getPrice()));
         holder.time.setText(String.format("%.2f", orderItemList.get(position).getPizza().getDeliveryTime()));
         holder.desc.setText(orderItemList.get(position).getPizza().getDescription());
@@ -80,7 +68,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
                 Double currentTotal = calculatTotalPrice(orderItemList);
                 Double toSubstract = orderItemList.get(position).getPrice();
                 totalPrice.setText("Total : "+String.format("%.2f",currentTotal-toSubstract)+" MAD");
-                //dbHelper.deleteOrderItem(orderItemList.get(position));
+                dbHelper.deleteOrderItem(orderItemList.get(position));
                 orderItemList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, orderItemList.size());
