@@ -16,7 +16,8 @@
         <activity android:name="com.ensa.pizzahub.HistoryActivity"></activity>
         <activity android:name="com.ensa.pizzahub.MainActivity"></activity>
         <activity android:name="com.ensa.pizzahub.RegisterActivity"></activity>
-        <activity android:name="com.ensa.pizzahub.LoginActivity">
+        <activity android:name="com.ensa.pizzahub.LoginActivity"></activity>
+        <activity android:name="com.ensa.pizzahub.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
