@@ -52,27 +52,13 @@ public class MainActivity extends AppCompatActivity {
         historyButton = findViewById(R.id.historyButton);
 
         pizzaList = dbHelper.getAllPizza();
-/*        System.out.println("=================");
-        System.out.println(dbHelper.getAllUser().toString());
-        User user = new User("hamza","hamza@email.com","hamza123");
-        try{
-            dbHelper.addUser(user);
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        user = dbHelper.updateUserOrders(user);
-        //OrderItem item = new OrderItem(pizzaList.get(0),3,user.getOrder(),23.5, ItemSize.LARGE);
-        user.getOrder().setState(State.CONFIRMED);
-        user.getOrder().setDate(new Date());
-        dbHelper.updateOrder(user.getOrder());
-        user = dbHelper.updateUserOrders(user);
-        System.out.println(user);*/
+
         getAllMenu(pizzaList);
         getRecommendedData(pizzaList);
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                user = dbHelper.updateUserOrders(user);
                 Intent i = new Intent(context, CartActivity.class);
                 i.putExtra("user", user);
                 context.startActivity(i);
@@ -87,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 context.startActivity(i);
             }
         });
-        //Toast.makeText(MainActivity.this, "Server is not responding.", Toast.LENGTH_SHORT).show();
     }
     private void  getRecommendedData(List<Pizza> recommendedList){
 

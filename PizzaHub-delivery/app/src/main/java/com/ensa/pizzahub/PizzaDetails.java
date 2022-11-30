@@ -103,7 +103,11 @@ public class PizzaDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(itemPrice.getText().toString()), itemSize);
+                System.out.println("==========OrderItemList==========");
+                System.out.println(orderItem);
+                System.out.println("=================================");
                 dbHelper.addOrderItem(orderItem);
+                finish();
                 Toast t = Toast.makeText(PizzaDetails.this, "Added Successfully", Toast.LENGTH_SHORT);
                 t.show();
             }

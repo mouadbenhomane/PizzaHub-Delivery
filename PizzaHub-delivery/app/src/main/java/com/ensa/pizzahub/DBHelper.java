@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     
     // Database Name
     private static final String DATABASE_NAME = "Userdata.db";
@@ -509,8 +509,8 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_PIZZA, //Table to query
                 columns,    //columns to return
-                null,        //columns for the WHERE clause
-                null,        //The values for the WHERE clause
+                selection,        //columns for the WHERE clause
+                selectionArgs,        //The values for the WHERE clause
                 null,       //group the rows
                 null,
                 sortOrder);
@@ -584,6 +584,7 @@ public class DBHelper extends SQLiteOpenHelper {
         itemValues.put(COLUMN_ORDER_ITEM_ORDER_ID, item.getOrder().getId());
         itemValues.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
         itemValues.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
+        itemValues.put(COLUMN_ORDER_ITEM_PIZZA_ID, item.getPizza().getId());
         // Inserting Row
         db.insert(TABLE_ORDER_ITEM, null, itemValues);
         db.close();
@@ -604,6 +605,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_ORDER_ITEM_QUANTITY, item.getQuantity());
         values.put(COLUMN_ORDER_ITEM_PRICE, item.getPrice());
         values.put(COLUMN_ORDER_ITEM_SIZE, item.getSize().ordinal());
+        values.put(COLUMN_ORDER_ITEM_PIZZA_ID, item.getPizza().getId());
         // updating row
         db.update(TABLE_ORDER_ITEM, values, COLUMN_ORDER_ITEM_ID + " = ?",
                 new String[]{String.valueOf(item.getId())});

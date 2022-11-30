@@ -31,7 +31,6 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView cartRecyclerView;
     private final AppCompatActivity activity = CartActivity.this;
     CartAdapter cartAdapter;
-    List<Pizza> pizzaList;
     List<OrderItem> orderItemList = new ArrayList<OrderItem>();
     private User user;
     private DBHelper dbHelper;
@@ -40,10 +39,12 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_cart);
         dbHelper = new DBHelper(activity);
-        pizzaList = dbHelper.getAllPizza();
         user = getIntent().getParcelableExtra("user");
         user = dbHelper.updateUserOrders(user);
         orderItemList = user.getOrder().getItems();
+        System.out.println("==========OrderItemList==========");
+        System.out.println(orderItemList);
+        System.out.println("=================================");
         TextView totalPrice = findViewById(R.id.totalPrice);
         Button purshase = findViewById(R.id.purchase2);
 
@@ -58,6 +59,7 @@ public class CartActivity extends AppCompatActivity {
                     user.getOrder().setDate(new Date());
                     dbHelper.updateOrder(user.getOrder());
                     user = dbHelper.updateUserOrders(user);
+                    finish();
                     Toast t = Toast.makeText(CartActivity.this, "Operation Successfully", Toast.LENGTH_SHORT);
                     t.show();
                 }

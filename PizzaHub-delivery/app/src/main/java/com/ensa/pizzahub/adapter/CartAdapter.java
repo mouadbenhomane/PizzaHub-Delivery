@@ -2,13 +2,11 @@ package com.ensa.pizzahub.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,11 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.ensa.pizzahub.DBHelper;
-import com.ensa.pizzahub.PizzaDetails;
 import com.ensa.pizzahub.R;
-import com.ensa.pizzahub.model.ItemSize;
 import com.ensa.pizzahub.model.OrderItem;
-import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
 import java.util.List;
@@ -29,21 +24,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
 
     private Context context;
     private User user;
-    private List<OrderItem> orderItemListList;
+    private List<OrderItem> orderItemList;
     private TextView totalPrice;
     private DBHelper dbHelper;
 
-    public List<OrderItem> getOrderItemListList() {
-        return orderItemListList;
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
     }
 
-    public void setOrderItemListList(List<OrderItem> orderItemListList) {
-        this.orderItemListList = orderItemListList;
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 
     public CartAdapter(Context context, List<OrderItem> orderItemListList,TextView totalPrice,User user) {
         this.context = context;
-        this.orderItemListList = orderItemListList;
+        this.orderItemList = orderItemListList;
         this.totalPrice = totalPrice;
         this.user = user;
         dbHelper=new DBHelper(context);
@@ -60,7 +55,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         String pizzaSize ="";
-        switch(orderItemListList.get(position).getSize()){
+        switch(orderItemList.get(position).getSize()){
             case SMALL:
                 pizzaSize = "Small";
                 break;
@@ -71,24 +66,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
                 pizzaSize = "Large";
                 break;
         }
-        holder.name.setText(orderItemListList.get(position).getPizza().getName());
-        holder.quantity.setText("x "+orderItemListList.get(position).getQuantity());
+        holder.name.setText(orderItemList.get(position).getPizza().getName());
+        holder.quantity.setText("x "+ orderItemList.get(position).getQuantity());
         holder.size.setText(pizzaSize);
-        holder.price.setText(String.format("%.2f",orderItemListList.get(position).getPrice()));
-        holder.time.setText(String.format("%.2f",orderItemListList.get(position).getPizza().getDeliveryTime()));
-        holder.desc.setText(orderItemListList.get(position).getPizza().getDescription());
-        Glide.with(context).load(orderItemListList.get(position).getPizza().getImagePath()).into(holder.pizzaImage);
+        holder.price.setText(String.format("%.2f", orderItemList.get(position).getPrice()));
+        holder.time.setText(String.format("%.2f", orderItemList.get(position).getPizza().getDeliveryTime()));
+        holder.desc.setText(orderItemList.get(position).getPizza().getDescription());
+        Glide.with(context).load(orderItemList.get(position).getPizza().getImagePath()).into(holder.pizzaImage);
 
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double currentTotal = calculatTotalPrice(orderItemListList);
-                Double toSubstract = orderItemListList.get(position).getPrice();
+                Double currentTotal = calculatTotalPrice(orderItemList);
+                Double toSubstract = orderItemList.get(position).getPrice();
                 totalPrice.setText("Total : "+String.format("%.2f",currentTotal-toSubstract)+" MAD");
-                dbHelper.deleteOrderItem(orderItemListList.get(position));
-                orderItemListList.remove(position);
+                //dbHelper.deleteOrderItem(orderItemList.get(position));
+                orderItemList.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, orderItemListList.size());
+                notifyItemRangeChanged(position, orderItemList.size());
                 holder.itemView.setVisibility(View.GONE);
 
 
@@ -106,7 +101,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.OrderViewHolde
 
     @Override
     public int getItemCount() {
-        return orderItemListList.size();
+        return orderItemList.size();
     }
 
     public  static class OrderViewHolder extends RecyclerView.ViewHolder{
