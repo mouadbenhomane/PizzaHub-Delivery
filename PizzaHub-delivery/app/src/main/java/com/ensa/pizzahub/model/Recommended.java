@@ -6,26 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Recommended {
 
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("imageUrl")
-    @Expose
     private String imageUrl;
-    @SerializedName("rating")
-    @Expose
     private String rating;
-    @SerializedName("deliveryTime")
-    @Expose
     private String deliveryTime;
-    @SerializedName("deliveryCharges")
-    @Expose
     private String deliveryCharges;
-    @SerializedName("price")
-    @Expose
     private String price;
-    @SerializedName("note")
-    @Expose
     private String note;
 
     public String getName() {

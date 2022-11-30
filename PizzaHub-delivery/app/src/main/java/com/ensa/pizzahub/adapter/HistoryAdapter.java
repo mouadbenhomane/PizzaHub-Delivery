@@ -34,8 +34,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.history_recycler_items, parent, false);
-         // here we need to create a layout for recyclerview cell items.
-
 
         return new HistoryViewHolder(view);
     }
