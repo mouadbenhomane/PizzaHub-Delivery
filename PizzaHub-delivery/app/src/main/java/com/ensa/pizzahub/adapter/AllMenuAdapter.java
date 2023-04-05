@@ -47,7 +47,6 @@ public class AllMenuAdapter extends RecyclerView.Adapter<AllMenuAdapter.AllMenuV
         holder.allMenuPrice.setText(String.format("%.2f",allmenuList.get(position).getPrice_m()));
         holder.allMenuTime.setText(String.format("%.2f",allmenuList.get(position).getDeliveryTime()));
         holder.allMenuDesc.setText(allmenuList.get(position).getDescription());
-
         Glide.with(context).load(allmenuList.get(position).getImagePath()).into(holder.allMenuImage);
 
 

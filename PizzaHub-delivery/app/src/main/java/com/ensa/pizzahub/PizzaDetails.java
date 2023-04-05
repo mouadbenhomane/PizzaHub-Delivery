@@ -20,10 +20,13 @@ import com.ensa.pizzahub.model.OrderItem;
 import com.ensa.pizzahub.model.Pizza;
 import com.ensa.pizzahub.model.User;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 public class PizzaDetails extends AppCompatActivity {
 
     // now we will get data from intent and set to UI
-
+    DecimalFormat df = new DecimalFormat("#.#", DecimalFormatSymbols.getInstance());
     ImageView imageView;
     TextView itemName, itemPrice,itemDesc,pizzaCount;
     RadioGroup radioGroup;
@@ -66,8 +69,9 @@ public class PizzaDetails extends AppCompatActivity {
 
         Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
         itemName.setText(pizza.getName());
+        System.out.println("==============="+priceM);
         itemPrice.setText(priceM);
-        currentPrice=Double.parseDouble(priceM);
+        currentPrice= pizza.getPrice_m();
         itemDesc.setText(desc);
         pizzaCount.setText("1");
         itemSize = ItemSize.MEDIUM;
@@ -102,7 +106,9 @@ public class PizzaDetails extends AppCompatActivity {
         addToCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(itemPrice.getText().toString()), itemSize);
+                String s = itemPrice.getText().toString();
+                s = s.replace(",", ".");
+                OrderItem orderItem =new OrderItem(pizza,Integer.parseInt(pizzaCount.getText().toString()),user.getOrder(),Double.parseDouble(s), itemSize);
                 System.out.println("==========OrderItem==========");
                 System.out.println(orderItem);
                 System.out.println("=================================");
@@ -121,17 +127,17 @@ public class PizzaDetails extends AppCompatActivity {
                 switch (i){
                     case R.id.small:
                         itemSize = ItemSize.SMALL;
-                        currentPrice=Double.parseDouble(priceS);
+                        currentPrice=pizza.getPrice_s();
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;
                     case R.id.medium:
                         itemSize = ItemSize.MEDIUM;
-                        currentPrice=Double.parseDouble(priceM);
+                        currentPrice=pizza.getPrice_m();
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;
                     case R.id.large:
                         itemSize = ItemSize.LARGE;
-                        currentPrice=Double.parseDouble(priceL);
+                        currentPrice=pizza.getPrice_l();
                         itemPrice.setText(String.format("%.2f",currentPrice*count));
                         break;
                 }
